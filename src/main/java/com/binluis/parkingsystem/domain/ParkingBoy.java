@@ -1,6 +1,8 @@
 package com.binluis.parkingsystem.domain;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "parking_boy")
@@ -16,9 +18,17 @@ public class ParkingBoy {
     private String phoneNumber;
     @Column(name = "status")
     private String status;
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, mappedBy = "parkingBoy")
+    private List<ParkingOrder> parkingOrders;
 
+    public ParkingBoy() {
+    }
 
-    protected ParkingBoy() {
+    public ParkingBoy(String name, String email, String phoneNumber, String status) {
+        this.name = name;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.status = status;
     }
 
     public Long getId() {
@@ -41,4 +51,27 @@ public class ParkingBoy {
         return status;
     }
 
+    public List<ParkingOrder> getParkingOrders() {
+        return parkingOrders;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public void setParkingOrders(List<ParkingOrder> parkingOrders) {
+        this.parkingOrders = parkingOrders;
+    }
 }

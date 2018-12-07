@@ -29,9 +29,7 @@ public class EmployeeResource {
     }
 
     @GetMapping(path = "/abc",produces = {"application/json"})
-    public Iterable<Employee> listabc() {
-        ArrayList<Employee> employees=new ArrayList<Employee>();
-        employees.add(new Employee("abc",25));
-        return employees;
+    public Employee listabc() {
+        return new Employee("abc",25);
     }
 }

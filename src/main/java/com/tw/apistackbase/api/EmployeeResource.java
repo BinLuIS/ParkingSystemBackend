@@ -5,6 +5,8 @@ import com.tw.apistackbase.core.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 @RestController
@@ -23,5 +25,12 @@ public class EmployeeResource {
     @PostMapping(produces = {"application/json"})
     public void add(@RequestBody Employee employee) {
         employeeRepository.save(employee);
+    }
+
+    @GetMapping(path = "/abc",produces = {"application/json"})
+    public Iterable<Employee> listabc() {
+        ArrayList<Employee> employees=new ArrayList<Employee>();
+        employees.add(new Employee("abc",25));
+        return employees;
     }
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000","https://parkingwebappmobile.herokuapp.com","https://binluis-parkingwebapp.herokuapp.com"})
 @RequestMapping("/employees")
 public class EmployeeResource {
     private final Logger log = Logger.getLogger(this.getClass().getName());

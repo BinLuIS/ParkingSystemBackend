@@ -20,6 +20,8 @@ public class ParkingBoy {
     private String status;
     @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, mappedBy = "parkingBoy")
     private List<ParkingOrder> parkingOrders;
+    @OneToMany(cascade = {CascadeType.PERSIST,CascadeType.MERGE}, mappedBy = "parkingBoy")
+    private List<ParkingLot> parkingLots;
 
     public ParkingBoy() {
     }
@@ -55,6 +57,10 @@ public class ParkingBoy {
         return parkingOrders;
     }
 
+    public List<ParkingLot> getParkingLots() {
+        return parkingLots;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -73,5 +79,9 @@ public class ParkingBoy {
 
     public void setParkingOrders(List<ParkingOrder> parkingOrders) {
         this.parkingOrders = parkingOrders;
+    }
+
+    public void setParkingLots(List<ParkingLot> parkingLots) {
+        this.parkingLots = parkingLots;
     }
 }

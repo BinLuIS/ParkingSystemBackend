@@ -1,5 +1,7 @@
 package com.binluis.parkingsystem.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,6 +14,10 @@ public class ParkingLot {
     private String name;
     @Column(name = "capacity")
     private int capacity;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "parking_boy_id")
+    private ParkingBoy parkingBoy;
 
 
     public ParkingLot() {
@@ -27,5 +33,9 @@ public class ParkingLot {
 
     public int getCapacity() {
         return capacity;
+    }
+
+    public ParkingBoy getParkingBoy() {
+        return parkingBoy;
     }
 }

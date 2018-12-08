@@ -1,5 +1,7 @@
 package com.binluis.parkingsystem.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -16,6 +18,11 @@ public class ParkingLot {
     //https://www.jianshu.com/p/e8caafce5445
     @OneToMany(cascade = {CascadeType.MERGE}, mappedBy = "parkingLot")
     private List<ParkingOrder> parkingOrders;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "parking_boy_id")
+    private ParkingBoy parkingBoy;
+
 
     public ParkingLot() {
     }
@@ -37,6 +44,7 @@ public class ParkingLot {
         return capacity;
     }
 
+
     public void setCapacity(int capacity) {
         this.capacity = capacity;
     }
@@ -47,5 +55,14 @@ public class ParkingLot {
 
     public void setParkingOrders(List<ParkingOrder> parkingOrders) {
         this.parkingOrders = parkingOrders;
+
+    }
+
+    public ParkingBoy getParkingBoy() {
+        return parkingBoy;
+    }
+
+    public void setParkingBoy(ParkingBoy parkingBoy) {
+        this.parkingBoy = parkingBoy;
     }
 }

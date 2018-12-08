@@ -1,5 +1,3 @@
-
-
 logging.file: logs/test.log
 logging:
   level:

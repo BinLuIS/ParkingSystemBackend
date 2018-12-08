@@ -60,4 +60,5 @@ public class ParkingBoyResource {
         parkingOrderRepository.flush();
         return ResponseEntity.created(URI.create("/orders")).body(parkingOrder);
     }
+
 }

@@ -1,10 +1,8 @@
 package com.binluis.parkingsystem;
 
-import com.binluis.parkingsystem.domain.ParkingLot;
-import com.binluis.parkingsystem.domain.ParkingLotRepository;
 import com.binluis.parkingsystem.domain.ParkingOrder;
 import com.binluis.parkingsystem.domain.ParkingOrderRepository;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.binluis.parkingsystem.models.CreateParkingOrderRequest;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +13,15 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.persistence.EntityManager;
 
 import static com.binluis.parkingsystem.WebTestUtil.asJsonString;
 import static com.binluis.parkingsystem.WebTestUtil.getContentAsObject;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -57,24 +55,54 @@ public class OrderResourceTest {
 
     //Given a parking boy {"carNumber": "string","requestType":"string","status":"string"},
     //When POST /orders, Return 201
+//    @Test
+//    public void should_create_parking_order() throws Exception {
+//        // Given
+//        final ParkingOrder boy = new ParkingOrder("car1","park","pending");
+//
+//        // When
+//        final MvcResult result = mvc.perform(post("/orders").content(asJsonString(boy)).contentType(MediaType.APPLICATION_JSON))
+//                .andReturn();
+//
+//        // Then
+//        assertEquals(201, result.getResponse().getStatus());
+//
+//        final ParkingOrder createdOrder = parkingOrderRepository.findAll().get(0);
+//        entityManager.clear();
+//
+//        assertEquals("car1", createdOrder.getCarNumber());
+//        assertEquals("park",createdOrder.getRequestType());
+//        assertEquals("pending",createdOrder.getStatus());
+//    }
+
     @Test
-    public void should_create_parking_order() throws Exception {
+    public void should_create_parking_order_v1() throws Exception {
         // Given
-        final ParkingOrder boy = new ParkingOrder("car1","park","pending");
+        CreateParkingOrderRequest request = new CreateParkingOrderRequest().create("A123");
 
         // When
-        final MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .post("/orders").content(asJsonString(boy)).contentType(MediaType.APPLICATION_JSON))
-                .andReturn();
+        mvc.perform(post("/orders")
+                .content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
 
         // Then
-        assertEquals(201, result.getResponse().getStatus());
-
         final ParkingOrder createdOrder = parkingOrderRepository.findAll().get(0);
         entityManager.clear();
 
-        assertEquals("car1", createdOrder.getCarNumber());
-        assertEquals("park",createdOrder.getRequestType());
-        assertEquals("pending",createdOrder.getStatus());
+        assertEquals("A123", createdOrder.getCarNumber());
+        assertEquals("Parking",createdOrder.getRequestType());
+        assertEquals("Pending",createdOrder.getStatus());
+
+        ParkingOrder[] parkingOrders = getContentAsObject(
+                mvc.perform(get("/orders")).andReturn(),ParkingOrder[].class);
+        assertEquals(1, parkingOrders.length);
+        assertEquals("A123", parkingOrders[0].getCarNumber());
+        assertEquals("Parking",parkingOrders[0].getRequestType());
+        assertEquals("Pending",parkingOrders[0].getStatus());
+
+
     }
 }
+
+

@@ -7,15 +7,16 @@ import javax.persistence.*;
 @Entity
 @Table(name = "parking_order")
 public class ParkingOrder {
+    //fields
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "car_number")
     private String carNumber;
     @Column(name = "request_type")
-    private String requestType;
+    private String requestType; // Parking   Fetching
     @Column(name = "status")
-    private String status;
+    private String status; // Pending   Accepted    Parked
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "parking_boy_id")
@@ -25,15 +26,18 @@ public class ParkingOrder {
     @JoinColumn(name = "parking_lot_id")
     private ParkingLot parkingLot;
 
+    //Constructors
     public ParkingOrder() {
     }
 
     public ParkingOrder(String carNumber, String requestType, String status) {
         this.carNumber = carNumber;
         this.requestType = requestType;
+        this.parkingBoy = null;
         this.status = status;
     }
 
+    //Methods
     public Long getId() {
         return id;
     }

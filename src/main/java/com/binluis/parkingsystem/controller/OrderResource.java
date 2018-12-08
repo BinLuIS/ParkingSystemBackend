@@ -31,7 +31,13 @@ public class OrderResource {
     public ResponseEntity<List<ParkingOrder>> showAllOrders() {
         List<ParkingOrder> allOrders = parkingOrderRepository.findAll();
         return ResponseEntity.ok(allOrders);
+    }
 
+    @PostMapping
+    public ResponseEntity add(@RequestBody ParkingOrder parkingOrder) {
+        parkingOrderRepository.save(parkingOrder);
+        parkingOrderRepository.flush();
+        return ResponseEntity.created(URI.create("/parkingclerks")).body(parkingOrder);
     }
 
 

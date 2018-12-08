@@ -1,0 +1,1 @@
+alter table parking_order add parking_lot_id bigint;

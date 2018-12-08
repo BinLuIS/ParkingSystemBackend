@@ -13,6 +13,7 @@ public class ParkingLot {
     @Column(name = "capacity")
     private int capacity;
 
+
     public ParkingLot() {
     }
 

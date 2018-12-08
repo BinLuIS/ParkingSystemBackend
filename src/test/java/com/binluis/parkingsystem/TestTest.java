@@ -46,6 +46,15 @@ public class TestTest {
         assertEquals("{test:success}",json);
     }
 
+    @Test
+    public void should_get_all_orders() throws Exception {
+        ParkingOrder parkingOrder = new ParkingOrder("car2","park","accept");
+        parkingOrderRepository.save(parkingOrder);
+        parkingOrderRepository.flush();
+        MvcResult result=this.mvc.perform(get("/orders")).andExpect(status().isOk()).andReturn();
+        String json=result.getResponse().getContentAsString();
 
+        assertEquals("{test:success}",json);
+    }
 
 }

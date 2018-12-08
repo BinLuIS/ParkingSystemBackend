@@ -1,6 +1,8 @@
 package com.binluis.parkingsystem.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-public interface ParkingLotRepository  extends JpaRepository<ParkingOrder, Long> {
+@Repository
+public interface ParkingLotRepository  extends JpaRepository<ParkingLot, Long> {
 }

@@ -20,6 +20,10 @@ public class ParkingOrder {
     @ManyToOne
     @JoinColumn(name = "parking_boy_id")
     private ParkingBoy parkingBoy;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "parking_lot_id")
+    private ParkingLot parkingLot;
 
     public ParkingOrder() {
     }
@@ -65,4 +69,8 @@ public class ParkingOrder {
     public void setStatus(String status) {
         this.status = status;
     }
+
+    public ParkingLot getParkingLot() { return parkingLot; }
+
+    public void setParkingLot(ParkingLot parkingLot) { this.parkingLot = parkingLot; }
 }

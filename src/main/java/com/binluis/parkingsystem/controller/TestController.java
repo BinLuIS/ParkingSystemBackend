@@ -1,9 +1,6 @@
 package com.binluis.parkingsystem.controller;
 
-import com.binluis.parkingsystem.domain.ParkingBoy;
-import com.binluis.parkingsystem.domain.ParkingBoyRepository;
-import com.binluis.parkingsystem.domain.ParkingOrder;
-import com.binluis.parkingsystem.domain.ParkingOrderRepository;
+import com.binluis.parkingsystem.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,6 +15,9 @@ public class TestController {
     @Autowired
     ParkingOrderRepository parkingOrderRepository;
 
+    @Autowired
+    ParkingLotRepository parkingLotRepository;
+
     @GetMapping(produces = {"application/json"})
     public ParkingBoy list() {
         ParkingBoy parkingBoy=new ParkingBoy("name","email","12345678901","available");
@@ -28,6 +28,7 @@ public class TestController {
         parkingBoyRepository.save(parkingBoy);
         return parkingBoyRepository.findAll().get(0);
     }
+
 
 
 //    @GetMapping(produces = {"application/json"})

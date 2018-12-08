@@ -29,6 +29,16 @@ public class TestController {
         return parkingBoyRepository.findAll().get(0);
     }
 
+    @GetMapping(value = "/temp",produces = {"application/json"})
+    public ParkingLot listParkingLot_Joe_Test() {
+        ParkingLot parkingLot=new ParkingLot("LotA",10);
+        parkingLotRepository.save(parkingLot);
+        ParkingOrder parkingOrder = new ParkingOrder("car2","park","accept");
+        parkingOrder.setParkingLot(parkingLot);
+        parkingOrderRepository.save(parkingOrder);
+        parkingLotRepository.save(parkingLot);
+        return parkingLotRepository.findAll().get(0);
+    }
 
 
 //    @GetMapping(produces = {"application/json"})

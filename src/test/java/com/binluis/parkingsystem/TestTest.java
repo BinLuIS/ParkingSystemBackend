@@ -31,4 +31,13 @@ public class TestTest {
 
     }
 
+    @Test
+    public void should_get_message_for_lot_order_relationship() throws Exception {
+        MvcResult result=this.mvc.perform(get("/test/temp")).andExpect(status().isOk()).andReturn();
+        String json=result.getResponse().getContentAsString();
+
+        assertEquals("{test:success}",json);
+
+    }
+
 }

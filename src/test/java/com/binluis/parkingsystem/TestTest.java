@@ -1,5 +1,7 @@
 package com.binluis.parkingsystem;
 
+import com.binluis.parkingsystem.domain.ParkingOrder;
+import com.binluis.parkingsystem.domain.ParkingOrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +26,9 @@ public class TestTest {
     @Autowired
     private MockMvc mvc;
 
+    @Autowired
+    private ParkingOrderRepository parkingOrderRepository;
+
     @Test
     public void should_get_message() throws Exception {
         MvcResult result=this.mvc.perform(get("/test")).andExpect(status().isOk()).andReturn();
@@ -39,7 +44,8 @@ public class TestTest {
         String json=result.getResponse().getContentAsString();
 
         assertEquals("{test:success}",json);
-
     }
+
+
 
 }

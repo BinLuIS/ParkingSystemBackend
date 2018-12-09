@@ -101,7 +101,7 @@ public class ParkingBoyResourceTest {
         ParkingBoyParkingOrderAssociationRequest request=new ParkingBoyParkingOrderAssociationRequest(parkingOrder.getId());
 
         final MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .post("/parkingclerks/"+parkingBoy.getId()+"/parkingorders").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON))
+                .post("/parkingclerks/"+parkingBoy.getId()+"/orders").content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON))
                 .andReturn();
 
 

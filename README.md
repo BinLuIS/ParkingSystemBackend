@@ -4,6 +4,7 @@
 - GET /orders
 - POST /orders 
   - Input: {"carNumber":String}
+- POST /orders/{id}
 
 ### Parking Boy APIs
 - GET /parkingclerks

@@ -2,13 +2,16 @@ package com.binluis.parkingsystem;
 
 import com.binluis.parkingsystem.domain.ParkingLot;
 import com.binluis.parkingsystem.domain.ParkingLotRepository;
+import com.binluis.parkingsystem.domain.ParkingOrder;
 import com.binluis.parkingsystem.domain.ParkingOrderRepository;
+import com.binluis.parkingsystem.models.ParkingLotParkingOrderAssociationRequest;
 import com.binluis.parkingsystem.models.ParkingLotResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,8 +20,12 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import javax.persistence.EntityManager;
 
+import static com.binluis.parkingsystem.WebTestUtil.asJsonString;
 import static com.binluis.parkingsystem.WebTestUtil.getContentAsObject;
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -31,6 +38,8 @@ public class ParkingLotResourceTest {
     EntityManager entityManager;
     @Autowired
     MockMvc mvc;
+    @Autowired
+    ParkingOrderRepository parkingOrderRepository;
 
     //When GET /parkingLots,
     //Return 200 with parking lots list [{"id": Long, "name":"string", "capacity": integer}]
@@ -50,6 +59,27 @@ public class ParkingLotResourceTest {
         assertEquals(1, parkingLots.length);
         assertEquals("lot", parkingLots[0].getName());
         assertEquals(10,parkingLots[0].getCapacity());
+    }
+
+    @Test
+    public void should_associate_parking_lot_with_parking_order() throws Exception{
+        //Given
+        final ParkingLot parkingLot = new ParkingLot("Lot1", 10);
+        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "Parking", "Pending");
+        parkingLotRepository.save(parkingLot);
+        parkingLotRepository.flush();
+        parkingOrderRepository.save(parkingOrder);
+        parkingOrderRepository.flush();
+
+        ParkingLotParkingOrderAssociationRequest request = ParkingLotParkingOrderAssociationRequest.create(1L);
+
+        //When
+        mvc.perform(post("/parkinglots/"+ 1L+"/orders")
+                .content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated());
+
+        //Then
+
     }
 
 }

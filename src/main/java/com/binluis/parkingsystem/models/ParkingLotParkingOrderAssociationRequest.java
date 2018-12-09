@@ -2,21 +2,30 @@ package com.binluis.parkingsystem.models;
 
 public class ParkingLotParkingOrderAssociationRequest {
     //Fields
-    private String carNumber;
+    private Long Id;
 
-    //Methods
-    public String getCarNumber() {
-        return carNumber;
+    //Constructor
+
+    public ParkingLotParkingOrderAssociationRequest() {
     }
 
-    public static ParkingLotParkingOrderAssociationRequest create(String carNumber){
+    //Methods
+    public Long getId() {
+        return Id;
+    }
+
+    public static ParkingLotParkingOrderAssociationRequest create(Long Id){
         final ParkingLotParkingOrderAssociationRequest request = new ParkingLotParkingOrderAssociationRequest();
-        request.carNumber = carNumber;
+        request.Id = Id;
         return request;
     }
 
+    public void setId(Long id) {
+        Id = id;
+    }
+
     public boolean isVaild(){
-        return carNumber!=null;
+        return Id!=null;
     }
 
 

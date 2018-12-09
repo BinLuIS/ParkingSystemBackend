@@ -101,8 +101,8 @@ public class OrderResourceTest {
         assertEquals("Parking",parkingOrders[0].getRequestType());
         assertEquals("Pending",parkingOrders[0].getStatus());
 
-
     }
+
 }
 
 

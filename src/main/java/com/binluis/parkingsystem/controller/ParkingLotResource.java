@@ -34,32 +34,31 @@ public class ParkingLotResource {
         return ResponseEntity.ok(parkingLotResponses);
     }
 
-    @PostMapping(path = "/{parkingLotName}/orders")
+    @PostMapping(path = "/{Id}/orders")
     public ResponseEntity associateParkingLotWithParkingOrder(
-            @RequestBody String parkingLotName,
+            @RequestBody Long Id,
             @RequestBody ParkingLotParkingOrderAssociationRequest request
             ){
         if(!request.isVaild()){
-            return ResponseEntity.badRequest().body("Invaild Car Number");
+            return ResponseEntity.badRequest().build();
         }
 
-        final ParkingLot parkingLot = parkingLotRepository.findOneByParkingLotName(parkingLotName);
+        final ParkingLot parkingLot = parkingLotRepository.findOneById(Id);
         if(parkingLot == null){
-            return ResponseEntity.badRequest().body("Invaild Parking Lot");
+            return ResponseEntity.badRequest().build();
         }
 
-        final ParkingOrder parkingOrder = parkingOrderRepository.findOneByCarName(request.getCarNumber());
+        final ParkingOrder parkingOrder = parkingOrderRepository.findOneById(request.getId());
         if(parkingOrder.getParkingLot()!=null){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
 
         parkingOrder.setParkingLot(parkingLot);
+        parkingOrder.setStatus("Parked");
         parkingOrderRepository.saveAndFlush(parkingOrder);
-        return ResponseEntity.created(URI.create("parkinglots/{parkingLotName}/orders/"+request.getCarNumber())).body("Added Parking Order to Parking Lots");
-
-
-
+        return ResponseEntity.created(URI.create("parkinglots/"+parkingLot.getId()+"/orders/"+request.getId())).body("Added Parking Order to Parking Lots");
     }
+
 
 
 }

@@ -34,6 +34,7 @@ public class ParkingOrder {
         this.carNumber = carNumber;
         this.requestType = requestType;
         this.parkingBoy = null;
+        this.parkingLot = null;
         this.status = status;
     }
 
@@ -77,4 +78,8 @@ public class ParkingOrder {
     public ParkingLot getParkingLot() { return parkingLot; }
 
     public void setParkingLot(ParkingLot parkingLot) { this.parkingLot = parkingLot; }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 }

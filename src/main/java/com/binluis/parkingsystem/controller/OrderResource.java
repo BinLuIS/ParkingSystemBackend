@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 
 
@@ -58,6 +59,23 @@ public class OrderResource {
         catch (DataIntegrityViolationException e){
             return ResponseEntity.badRequest().build();
         }
+    }
+
+    @PostMapping(path = "/{id}",produces = {"application/json"})
+    public ResponseEntity makeCarFetchingRequest(@PathVariable Long id){
+        Optional<ParkingOrder> parkingOrder=parkingOrderRepository.findById(id);
+        if(!parkingOrder.isPresent()){
+            System.out.print("here it is");
+            return ResponseEntity.badRequest().build();
+        }
+        if(!parkingOrder.get().getStatus().equals("Parked")){
+            System.out.print("here it is...");
+            System.out.print(parkingOrder.get().getStatus());
+            return ResponseEntity.badRequest().build();
+        }
+        parkingOrder.get().setRequestType("Fetching");
+        parkingOrderRepository.saveAndFlush(parkingOrder.get());
+        return ResponseEntity.created(URI.create("/orders/"+id)).body(parkingOrder);
     }
 
 

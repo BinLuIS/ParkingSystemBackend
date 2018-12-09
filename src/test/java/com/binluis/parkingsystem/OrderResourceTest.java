@@ -103,6 +103,21 @@ public class OrderResourceTest {
 
     }
 
+    @Test
+    public void should_make_car_fetching_request() throws Exception {
+        // Given
+        ParkingOrder parkingOrderWithCarParked = new ParkingOrder("ABC", "Parking", "Parked");
+        parkingOrderRepository.saveAndFlush(parkingOrderWithCarParked);
+        // When
+        mvc.perform(post("/orders/"+parkingOrderWithCarParked.getId().toString()))
+                .andExpect(status().isCreated());
+        //Then
+        assertEquals("Fetching",parkingOrderRepository.findAll().get(0).getRequestType());
+
+
+
+    }
+
 }
 
 

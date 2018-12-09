@@ -88,5 +88,13 @@ public class ParkingBoyResource {
 
     }
 
+    @GetMapping(path = "/{id}/parkinglots")
+    public ResponseEntity getParkingLot(@PathVariable Long id){
+        ParkingBoy parkingBoy = parkingBoyRepository.findOneById(id);
+        return ResponseEntity.ok(parkingBoy.getParkingLots());
+    }
+
+
+
 
 }

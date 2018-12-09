@@ -1,9 +1,6 @@
 package com.binluis.parkingsystem;
 
-import com.binluis.parkingsystem.domain.ParkingBoy;
-import com.binluis.parkingsystem.domain.ParkingBoyRepository;
-import com.binluis.parkingsystem.domain.ParkingOrder;
-import com.binluis.parkingsystem.domain.ParkingOrderRepository;
+import com.binluis.parkingsystem.domain.*;
 import com.binluis.parkingsystem.models.ParkingBoyParkingOrderAssociationRequest;
 import com.binluis.parkingsystem.models.ParkingBoyResponse;
 import org.junit.Test;
@@ -35,6 +32,8 @@ public class ParkingBoyResourceTest {
     ParkingOrderRepository parkingOrderRepository;
     @Autowired
     ParkingBoyRepository parkingBoyRepository;
+    @Autowired
+    ParkingLotRepository parkingLotRepository;
     @Autowired
     EntityManager entityManager;
     @Autowired
@@ -108,8 +107,16 @@ public class ParkingBoyResourceTest {
 
         assertEquals(201,result.getResponse().getStatus());
         assertEquals(parkingOrder.getId(),parkingOrderRepository.findById(boyAddedParkingOrder.getId()).get().getId());
-
-
-
     }
+
+//    @Test
+//    public void should_parking_lot_add_to_parkingBoy() throws Exception{
+//        ParkingBoy parkingBoy = new ParkingBoy("boy1","boy1@email","12345678901","available");
+//        ParkingLot parkingLot = new ParkingLot("LotA", 10);
+//        parkingBoyRepository.save(parkingBoy);
+//        parkingBoyRepository.flush();
+//        parkingLotRepository.save(parkingLot);
+//        parkingLotRepository.flush();
+//
+//    }
 }

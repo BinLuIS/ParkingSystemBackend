@@ -71,10 +71,10 @@ public class ParkingLotResourceTest {
         parkingOrderRepository.save(parkingOrder);
         parkingOrderRepository.flush();
 
-        ParkingLotParkingOrderAssociationRequest request = ParkingLotParkingOrderAssociationRequest.create(1L);
+        ParkingLotParkingOrderAssociationRequest request = ParkingLotParkingOrderAssociationRequest.create(parkingOrder.getId());
 
         //When
-        mvc.perform(post("/parkinglots/"+ 1L+"/orders")
+        mvc.perform(post("/parkinglots/"+ parkingLot.getId()+"/orders")
                 .content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
 

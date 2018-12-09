@@ -41,3 +41,10 @@ dependencies {
     testRuntime('org.junit.jupiter:junit-jupiter-engine:5.0.0')
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }
+
+
+dependencies {
+    testCompile("junit:junit:4.12")
+    testRuntime("org.junit.vintage:junit-vintage-engine:5.2.0")
+}
+

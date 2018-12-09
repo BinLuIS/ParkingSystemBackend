@@ -31,7 +31,7 @@ public class OrderResource {
     ParkingLotRepository parkingLotRepository;
 
     @GetMapping(produces = {"application/json"})
-    public ResponseEntity<List<ParkingOrder>> showAllOrders() {
+    public ResponseEntity<List<ParkingOrder>> getAllOrders() {
         List<ParkingOrder> allOrders = parkingOrderRepository.findAll();
         return ResponseEntity.ok(allOrders);
     }
@@ -57,4 +57,6 @@ public class OrderResource {
             return ResponseEntity.badRequest().body("Invaild Car Number");
         }
     }
+
+
 }

@@ -12,3 +12,12 @@
 ### Parking Lot APIs
 - GET /parkinglots
 - POST /parkinglots/{parkingLotName}/orders
+
+
+## Milestones
+
+### Iteration 1
+- [x] Customer: Make car parking order
+- [x] Parking Boy: Can View all orders, park a car (Accept an order, decide which parking lot for this order)
+- [x] Manager: 
+- [x] System Admin: Add a parking boy, view all parking lots

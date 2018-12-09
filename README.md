@@ -21,19 +21,20 @@
 - GET /parkinglots
 - POST /parkinglots 
   - Input: {"name": String, "capacity":Integer}
+- GET /parkinglots/{id}/orders 
 - POST /parkinglots/{id}/orders 
   - Input: {"parkingOrderId": Integer, "vaild": true}
-- GET /parkinglots/{id}/orders 
+
 
 
 ## Milestones
 
 ### Iteration 1
 #### APIs
-- [x] Customer: Make car parking order
+- [x] Customer: Make car parking order, make car fetching request
 - [x] Parking Boy: Can View all orders, park a car (Accept an order, decide which parking lot for this order)
-- [x] Manager: view all parking lots
-- [x] System Admin: Create parkinglots, create parkingboys,view all parking lots 
+- [x] Manager: addParkingLotsToParkingBoys, ViewParkingLotsOfParkingBoys, AssignOrderToParkingBoys
+- [x] System Admin: Create parkinglots, create parkingboys,view all parking lots, view all orders
 
 #### UI
 - [ ]  Parking Boy UI View - Need to refactor

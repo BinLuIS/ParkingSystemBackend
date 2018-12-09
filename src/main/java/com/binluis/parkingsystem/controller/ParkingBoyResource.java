@@ -56,8 +56,7 @@ public class ParkingBoyResource {
         }
         parkingOrder.get().setParkingBoy(parkingBoy.get());
         parkingOrder.get().setStatus("accept");
-        parkingOrderRepository.save(parkingOrder.get());
-        parkingOrderRepository.flush();
+        parkingOrderRepository.saveAndFlush(parkingOrder.get());
         return ResponseEntity.created(URI.create("/orders")).body(parkingOrder);
     }
 

@@ -36,7 +36,7 @@ public class ParkingLotResource {
 
     @PostMapping(path = "/{Id}/orders")
     public ResponseEntity associateParkingLotWithParkingOrder(
-            @RequestBody Long Id,
+            @PathVariable Long Id,
             @RequestBody ParkingLotParkingOrderAssociationRequest request
             ){
         if(!request.isVaild()){

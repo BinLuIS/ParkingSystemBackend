@@ -4,6 +4,7 @@ import com.binluis.parkingsystem.domain.*;
 import com.binluis.parkingsystem.models.ParkingBoyParkingLotAssociationRequest;
 import com.binluis.parkingsystem.models.ParkingBoyParkingOrderAssociationRequest;
 import com.binluis.parkingsystem.models.ParkingBoyResponse;
+import com.binluis.parkingsystem.models.ParkingOrderResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -46,7 +47,15 @@ public class ParkingBoyResource {
         return ResponseEntity.created(URI.create("/parkingclerks")).body(parkingBoyResponse);
     }
 
-    @PostMapping(path = "/{id}/parkingorders")
+    @GetMapping(path = "/{id}/orders")
+    public ResponseEntity<ParkingOrderResponse[]> getAllAssociateParkingOrders(@PathVariable Long id){
+        ParkingBoy parkingBoy= parkingBoyRepository.findOneById(id);
+        return ResponseEntity.ok((ParkingOrderResponse[])parkingBoy.getParkingOrders().stream()
+                .map(ParkingOrderResponse::create)
+                .toArray(ParkingOrderResponse[]::new));
+    }
+
+    @PostMapping(path = "/{id}/orders")
     public ResponseEntity addParkingOrderToParkingBoy(@PathVariable Long id, @RequestBody ParkingBoyParkingOrderAssociationRequest parkingBoyParkingOrderAssociationRequest){
         Optional<ParkingBoy> parkingBoy=parkingBoyRepository.findById(id);
         if(!parkingBoy.isPresent()){

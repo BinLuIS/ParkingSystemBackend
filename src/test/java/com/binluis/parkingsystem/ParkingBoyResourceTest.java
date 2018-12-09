@@ -4,6 +4,7 @@ import com.binluis.parkingsystem.domain.*;
 import com.binluis.parkingsystem.models.ParkingBoyParkingLotAssociationRequest;
 import com.binluis.parkingsystem.models.ParkingBoyParkingOrderAssociationRequest;
 import com.binluis.parkingsystem.models.ParkingBoyResponse;
+import com.binluis.parkingsystem.models.ParkingOrderResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import javax.persistence.EntityManager;
 import static com.binluis.parkingsystem.WebTestUtil.asJsonString;
 import static com.binluis.parkingsystem.WebTestUtil.getContentAsObject;
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 
 
 @RunWith(SpringRunner.class)
@@ -108,5 +110,31 @@ public class ParkingBoyResourceTest {
 
         assertEquals(201,result.getResponse().getStatus());
         assertEquals(parkingOrder.getId(),parkingOrderRepository.findById(boyAddedParkingOrder.getId()).get().getId());
+    }
+
+    @Test
+    public void should_get_associate_parking_order_of_parking_boy() throws Exception{
+        //Given
+        final ParkingBoy parkingBoy=new ParkingBoy("boy1","boy1@email","12345678901","available");
+        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "Parking", "Pending");
+        parkingOrder.setParkingBoy(parkingBoy);
+        parkingBoyRepository.save(parkingBoy);
+        parkingLotRepository.flush();
+        parkingOrderRepository.save(parkingOrder);
+        parkingOrderRepository.flush();
+
+        //When
+        final MvcResult result = mvc.perform(get("/parkingclerks/"+ parkingBoy.getId()+"/orders"))
+                .andReturn();
+
+        //Then
+        assertEquals(200, result.getResponse().getStatus());
+
+        final ParkingOrderResponse[] parkingOrderResponses= getContentAsObject(result, ParkingOrderResponse[].class);
+
+        assertEquals(1, parkingOrderResponses.length);
+        assertEquals("ABC1", parkingOrderResponses[0].getCarNumber());
+        assertEquals("Parking",parkingOrderResponses[0].getRequestType());
+        assertEquals("Pending",parkingOrderResponses[0].getStatus());
     }
 }

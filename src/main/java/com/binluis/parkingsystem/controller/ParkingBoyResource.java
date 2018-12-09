@@ -14,6 +14,7 @@ import java.util.Optional;
 import java.util.logging.Logger;
 
 @RestController
+@CrossOrigin(origins = {"http://localhost:3000","https://parkingwebappmobile.herokuapp.com","https://binluis-parkingwebapp.herokuapp.com"})
 @RequestMapping("/parkingclerks")
 
 public class ParkingBoyResource {

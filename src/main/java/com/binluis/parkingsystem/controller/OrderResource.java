@@ -71,6 +71,7 @@ public class OrderResource {
             return ResponseEntity.badRequest().build();
         }
         parkingOrder.get().setRequestType("Fetching");
+        parkingOrder.get().setStatus("Fetching");
         parkingOrderRepository.saveAndFlush(parkingOrder.get());
         return ResponseEntity.created(URI.create("/orders/"+id)).body(parkingOrder);
     }

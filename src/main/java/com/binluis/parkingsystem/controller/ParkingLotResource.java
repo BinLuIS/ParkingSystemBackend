@@ -35,6 +35,13 @@ public class ParkingLotResource {
     }
 
 
+    @PostMapping
+    public ResponseEntity createParkingLot(@RequestBody ParkingLot parkingLot) {
+        final ParkingLotResponse parkingLotResponse = ParkingLotResponse.create(parkingLotRepository.save(parkingLot));
+        return ResponseEntity.created(URI.create("/parkinglots")).body(parkingLotResponse);
+    }
+
+
 
     @PostMapping(path = "/{Id}/orders")
     public ResponseEntity associateParkingLotWithParkingOrder(

@@ -34,6 +34,8 @@ public class ParkingLotResource {
         return ResponseEntity.ok(parkingLotResponses);
     }
 
+
+
     @PostMapping(path = "/{Id}/orders")
     public ResponseEntity associateParkingLotWithParkingOrder(
             @PathVariable Long Id,

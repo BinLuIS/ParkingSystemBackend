@@ -46,15 +46,16 @@ public class OrderResource {
     @PostMapping(produces = {"application/json"})
     public ResponseEntity createOrder(@RequestBody CreateParkingOrderRequest request){
         if(!request.isVaild()){
+
             return ResponseEntity.badRequest().body("Invaild Car Number");
         }
         try{
-            ParkingOrder order = new ParkingOrder(request.getCarNumber(), request.getRequestType(), request.getStatus());
+            ParkingOrder order = new ParkingOrder(request.getCarNumber(), "Parking", "Pending");
             parkingOrderRepository.saveAndFlush(order);
             return ResponseEntity.created(URI.create("/orders/"+order.getId())).body(order);
         }
         catch (DataIntegrityViolationException e){
-            return ResponseEntity.badRequest().body("Invaild Car Number");
+            return ResponseEntity.badRequest().body("Invaild Car Number1");
         }
     }
 

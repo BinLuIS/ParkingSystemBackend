@@ -27,7 +27,7 @@ public class ParkingBoyResource {
     ParkingOrderRepository parkingOrderRepository;
 
     @GetMapping
-    public ResponseEntity<ParkingBoyResponse[]> getAll() {
+    public ResponseEntity<ParkingBoyResponse[]> getAllParkingBoys() {
         final ParkingBoyResponse[] parkingBoys = parkingBoyRepository.findAll().stream()
                 .map(ParkingBoyResponse::create)
                 .toArray(ParkingBoyResponse[]::new);
@@ -36,7 +36,7 @@ public class ParkingBoyResource {
 
 
     @PostMapping
-    public ResponseEntity add(@RequestBody ParkingBoy parkingBoy) {
+    public ResponseEntity addParkingBoy(@RequestBody ParkingBoy parkingBoy) {
         final ParkingBoyResponse parkingBoyResponse = ParkingBoyResponse.create(parkingBoyRepository.save(parkingBoy));
         return ResponseEntity.created(URI.create("/parkingclerks")).body(parkingBoyResponse);
     }

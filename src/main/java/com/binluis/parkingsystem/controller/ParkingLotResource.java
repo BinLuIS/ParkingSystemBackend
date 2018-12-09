@@ -27,7 +27,7 @@ public class ParkingLotResource {
     ParkingOrderRepository parkingOrderRepository;
 
     @GetMapping
-    public ResponseEntity<ParkingLotResponse[]> getAll() {
+    public ResponseEntity<ParkingLotResponse[]> getAllParkingLots() {
         final ParkingLotResponse[] parkingLotResponses= parkingLotRepository.findAll().stream()
                 .map(ParkingLotResponse::create)
                 .toArray(ParkingLotResponse[]::new);

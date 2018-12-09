@@ -1,4 +1,4 @@
-## All Available APIs and associated methods are listed below
+## APIs List
 
 ### Parking Order APIs
 - GET /orders

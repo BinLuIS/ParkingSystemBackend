@@ -109,14 +109,14 @@ public class ParkingBoyResourceTest {
         assertEquals(parkingOrder.getId(),parkingOrderRepository.findById(boyAddedParkingOrder.getId()).get().getId());
     }
 
-//    @Test
-//    public void should_parking_lot_add_to_parkingBoy() throws Exception{
-//        ParkingBoy parkingBoy = new ParkingBoy("boy1","boy1@email","12345678901","available");
-//        ParkingLot parkingLot = new ParkingLot("LotA", 10);
-//        parkingBoyRepository.save(parkingBoy);
-//        parkingBoyRepository.flush();
-//        parkingLotRepository.save(parkingLot);
-//        parkingLotRepository.flush();
-//
-//    }
+    @Test
+    public void should_parking_lot_add_to_parkingBoy() throws Exception{
+        ParkingBoy parkingBoy = new ParkingBoy("boy1","boy1@email","12345678901","available");
+        ParkingLot parkingLot = new ParkingLot("LotA", 10);
+        parkingBoyRepository.save(parkingBoy);
+        parkingBoyRepository.flush();
+        parkingLotRepository.save(parkingLot);
+        parkingLotRepository.flush();
+
+    }
 }

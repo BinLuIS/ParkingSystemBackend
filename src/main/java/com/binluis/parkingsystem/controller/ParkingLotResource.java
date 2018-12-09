@@ -44,16 +44,16 @@ public class ParkingLotResource {
 
 
 
-    @PostMapping(path = "/{Id}/orders")
+    @PostMapping(path = "/{id}/orders")
     public ResponseEntity associateParkingLotWithParkingOrder(
-            @PathVariable Long Id,
+            @PathVariable Long id,
             @RequestBody ParkingLotParkingOrderAssociationRequest request
             ){
         if(!request.isVaild()){
             return ResponseEntity.badRequest().build();
         }
 
-        final ParkingLot parkingLot = parkingLotRepository.findOneById(Id);
+        final ParkingLot parkingLot = parkingLotRepository.findOneById(id);
         if(parkingLot == null){
             return ResponseEntity.badRequest().build();
         }

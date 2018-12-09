@@ -25,7 +25,7 @@
 - [x] System Admin: Create parkinglots, create parkingboys,view all parking lots 
 
 #### UI
-- [ ]  Parking Boy UI View
+- [ ]  Parking Boy UI View - Need to refactor
 - [ ]  Customers Car Parking Request Page
 
 #### Authentication

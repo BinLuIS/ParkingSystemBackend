@@ -1,6 +1,7 @@
 package com.binluis.parkingsystem.controller;
 
 import com.binluis.parkingsystem.domain.*;
+import com.binluis.parkingsystem.models.ParkingBoyParkingLotAssociationRequest;
 import com.binluis.parkingsystem.models.ParkingBoyParkingOrderAssociationRequest;
 import com.binluis.parkingsystem.models.ParkingBoyResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +27,9 @@ public class ParkingBoyResource {
 
     @Autowired
     ParkingOrderRepository parkingOrderRepository;
+
+    @Autowired
+    ParkingLotRepository parkingLotRepository;
 
     @GetMapping
     public ResponseEntity<ParkingBoyResponse[]> getAllParkingBoys() {
@@ -60,5 +64,28 @@ public class ParkingBoyResource {
         parkingOrderRepository.saveAndFlush(parkingOrder.get());
         return ResponseEntity.created(URI.create("/orders")).body(parkingOrder);
     }
+
+
+    @PostMapping(path = "/{id}/parkinglots")
+    public ResponseEntity addParkingLotToParkingBoy(@PathVariable Long id, @RequestBody ParkingBoyParkingLotAssociationRequest parkingBoyParkingLotAssociationRequest){
+        Optional<ParkingBoy> parkingBoy=parkingBoyRepository.findById(id);
+
+        if(!parkingBoy.isPresent()){
+            return ResponseEntity.badRequest().build();
+        }
+        System.out.print("here it is:");
+        System.out.print(parkingBoyParkingLotAssociationRequest.getParkingLotId());
+        Optional<ParkingLot> parkingLot=parkingLotRepository.findById(parkingBoyParkingLotAssociationRequest.getParkingLotId());
+        if(!parkingLot.isPresent()){
+            return ResponseEntity.badRequest().build();
+        }
+        if(parkingLot.get().getParkingBoy()!=null){
+            return ResponseEntity.status(HttpStatus.CONFLICT).build();
+        }
+        parkingLot.get().setParkingBoy(parkingBoy.get());
+        parkingLotRepository.saveAndFlush(parkingLot.get());
+        return ResponseEntity.created(URI.create("/parkingclerks/"+id+"/parkinglots")).body(parkingLot);
+    }
+
 
 }

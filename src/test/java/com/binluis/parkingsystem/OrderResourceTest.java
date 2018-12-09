@@ -113,6 +113,7 @@ public class OrderResourceTest {
                 .andExpect(status().isCreated());
         //Then
         assertEquals("Fetching",parkingOrderRepository.findAll().get(0).getRequestType());
+        assertEquals("Fetching",parkingOrderRepository.findAll().get(0).getStatus());
 
 
 

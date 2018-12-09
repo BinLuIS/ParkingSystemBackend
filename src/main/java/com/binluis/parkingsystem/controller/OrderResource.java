@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
 
-
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000","https://parkingwebappmobile.herokuapp.com","https://binluis-parkingwebapp.herokuapp.com"})
 @RequestMapping("/orders")
@@ -75,6 +74,5 @@ public class OrderResource {
         parkingOrderRepository.saveAndFlush(parkingOrder.get());
         return ResponseEntity.created(URI.create("/orders/"+id)).body(parkingOrder);
     }
-
 
 }

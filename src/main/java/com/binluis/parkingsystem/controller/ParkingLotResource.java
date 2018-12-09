@@ -2,10 +2,7 @@ package com.binluis.parkingsystem.controller;
 
 
 import com.binluis.parkingsystem.domain.*;
-import com.binluis.parkingsystem.models.ParkingBoyParkingOrderAssociationRequest;
-import com.binluis.parkingsystem.models.ParkingBoyResponse;
-import com.binluis.parkingsystem.models.ParkingLotParkingOrderAssociationRequest;
-import com.binluis.parkingsystem.models.ParkingLotResponse;
+import com.binluis.parkingsystem.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -43,6 +40,13 @@ public class ParkingLotResource {
     }
 
 
+    @GetMapping(path = "/{id}/orders")
+    public ResponseEntity<ParkingOrderResponse[]> getAllAssociateParkingOrders(@PathVariable Long id){
+        ParkingLot parkingLot = parkingLotRepository.findOneById(id);
+        return ResponseEntity.ok((ParkingOrderResponse[])parkingLot.getParkingOrders().stream()
+                .map(ParkingOrderResponse::create)
+                .toArray(ParkingOrderResponse[]::new));
+    }
 
     @PostMapping(path = "/{id}/orders")
     public ResponseEntity associateParkingLotWithParkingOrder(

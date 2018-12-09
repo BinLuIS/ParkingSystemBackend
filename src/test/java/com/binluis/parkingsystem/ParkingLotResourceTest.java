@@ -6,6 +6,7 @@ import com.binluis.parkingsystem.domain.ParkingOrder;
 import com.binluis.parkingsystem.domain.ParkingOrderRepository;
 import com.binluis.parkingsystem.models.ParkingLotParkingOrderAssociationRequest;
 import com.binluis.parkingsystem.models.ParkingLotResponse;
+import com.binluis.parkingsystem.models.ParkingOrderResponse;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,7 @@ import javax.persistence.EntityManager;
 import static com.binluis.parkingsystem.WebTestUtil.asJsonString;
 import static com.binluis.parkingsystem.WebTestUtil.getContentAsObject;
 import static org.junit.Assert.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -48,8 +50,7 @@ public class ParkingLotResourceTest {
         final ParkingLot lot = parkingLotRepository.save(new ParkingLot("lot",10));
         parkingLotRepository.flush();
 
-        final MvcResult result = mvc.perform(MockMvcRequestBuilders
-                .get("/parkinglots"))
+        final MvcResult result = mvc.perform(get("/parkinglots"))
                 .andReturn();
 
         assertEquals(200, result.getResponse().getStatus());
@@ -80,6 +81,32 @@ public class ParkingLotResourceTest {
 
         //Then
 
+    }
+
+    @Test
+    public void should_get_associate_parking_order_of_parking_lot() throws Exception{
+        //Given
+        final ParkingLot parkingLot = new ParkingLot("Lot1", 10);
+        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "Parking", "Pending");
+        parkingOrder.setParkingLot(parkingLot);
+        parkingLotRepository.save(parkingLot);
+        parkingLotRepository.flush();
+        parkingOrderRepository.save(parkingOrder);
+        parkingOrderRepository.flush();
+
+        //When
+        final MvcResult result = mvc.perform(get("/parkinglots/"+ parkingLot.getId()+"/orders"))
+                .andReturn();
+
+        //Then
+        assertEquals(200, result.getResponse().getStatus());
+
+        final ParkingOrderResponse[] parkingOrderResponses= getContentAsObject(result, ParkingOrderResponse[].class);
+
+        assertEquals(1, parkingOrderResponses.length);
+        assertEquals("ABC1", parkingOrderResponses[0].getCarNumber());
+        assertEquals("Parking",parkingOrderResponses[0].getRequestType());
+        assertEquals("Pending",parkingOrderResponses[0].getStatus());
     }
 
 }

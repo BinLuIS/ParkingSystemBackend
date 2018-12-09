@@ -56,7 +56,7 @@ public class OrderResource {
             return ResponseEntity.created(URI.create("/orders/"+order.getId())).body(order);
         }
         catch (DataIntegrityViolationException e){
-            return ResponseEntity.badRequest().body("Invaild Car Number1");
+            return ResponseEntity.badRequest().build();
         }
     }
 

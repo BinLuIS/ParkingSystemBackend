@@ -10,8 +10,14 @@ public class ParkingLotParkingOrderAssociationRequest {
     }
 
     //Methods
-    public Long getId() {
+
+
+    public Long getParkingOrderId() {
         return parkingOrderId;
+    }
+
+    public void setParkingOrderId(Long parkingOrderId) {
+        this.parkingOrderId = parkingOrderId;
     }
 
     public static ParkingLotParkingOrderAssociationRequest create(Long parkingOrderId){
@@ -20,9 +26,6 @@ public class ParkingLotParkingOrderAssociationRequest {
         return request;
     }
 
-    public void setId(Long id) {
-        parkingOrderId = id;
-    }
 
     public boolean isVaild(){
         return parkingOrderId!=null;

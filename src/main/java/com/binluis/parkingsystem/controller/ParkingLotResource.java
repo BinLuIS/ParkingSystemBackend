@@ -58,7 +58,7 @@ public class ParkingLotResource {
             return ResponseEntity.badRequest().build();
         }
 
-        final ParkingOrder parkingOrder = parkingOrderRepository.findOneById(request.getId());
+        final ParkingOrder parkingOrder = parkingOrderRepository.findOneById(request.getParkingOrderId());
         if(parkingOrder.getParkingLot()!=null){
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
@@ -66,7 +66,7 @@ public class ParkingLotResource {
         parkingOrder.setParkingLot(parkingLot);
         parkingOrder.setStatus("Parked");
         parkingOrderRepository.saveAndFlush(parkingOrder);
-        return ResponseEntity.created(URI.create("parkinglots/"+parkingLot.getId()+"/orders/"+request.getId())).body("Added Parking Order to Parking Lots");
+        return ResponseEntity.created(URI.create("parkinglots/"+parkingLot.getId()+"/orders")).body(parkingOrder);
     }
 
 

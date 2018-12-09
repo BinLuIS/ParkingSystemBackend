@@ -82,8 +82,6 @@ public class ParkingBoyResource {
         if(!parkingBoy.isPresent()){
             return ResponseEntity.badRequest().build();
         }
-        System.out.print("here it is:");
-        System.out.print(parkingBoyParkingLotAssociationRequest.getParkingLotId());
         Optional<ParkingLot> parkingLot=parkingLotRepository.findById(parkingBoyParkingLotAssociationRequest.getParkingLotId());
         if(!parkingLot.isPresent()){
             return ResponseEntity.badRequest().build();

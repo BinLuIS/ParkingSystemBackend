@@ -1,5 +1,3 @@
-# refactoring_step_by_step
-
 ## All Available APIs and associated methods are listed below
 
 ### Parking Order APIs

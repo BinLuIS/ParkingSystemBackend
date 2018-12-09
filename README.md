@@ -11,7 +11,7 @@
 
 ### Parking Lot APIs
 - GET /parkinglots
-- POST /parkinglots/{parkingLotId}/orders Input: {"parkingOrderId": Integer}
+- POST /parkinglots/{parkingLotId}/orders Input: {"parkingOrderId": Integer, "vaild": true}
 - POST /parkinglots Input: {"name": String, "capacity":Integer}
 
 

@@ -65,12 +65,9 @@ public class OrderResource {
     public ResponseEntity makeCarFetchingRequest(@PathVariable Long id){
         Optional<ParkingOrder> parkingOrder=parkingOrderRepository.findById(id);
         if(!parkingOrder.isPresent()){
-            System.out.print("here it is");
             return ResponseEntity.badRequest().build();
         }
         if(!parkingOrder.get().getStatus().equals("Parked")){
-            System.out.print("here it is...");
-            System.out.print(parkingOrder.get().getStatus());
             return ResponseEntity.badRequest().build();
         }
         parkingOrder.get().setRequestType("Fetching");

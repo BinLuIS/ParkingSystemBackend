@@ -16,7 +16,7 @@ public class ParkingOrder {
     @Column(name = "request_type")
     private String requestType; // Parking   Fetching
     @Column(name = "status")
-    private String status; // Pending   Accepted    Parked
+    private String status; // Pending   Accepted    Parked    Fetching
     @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "parking_boy_id")

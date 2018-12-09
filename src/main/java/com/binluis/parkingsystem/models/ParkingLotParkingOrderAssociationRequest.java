@@ -2,7 +2,7 @@ package com.binluis.parkingsystem.models;
 
 public class ParkingLotParkingOrderAssociationRequest {
     //Fields
-    private Long Id;
+    private Long parkingOrderId;
 
     //Constructor
 
@@ -11,21 +11,21 @@ public class ParkingLotParkingOrderAssociationRequest {
 
     //Methods
     public Long getId() {
-        return Id;
+        return parkingOrderId;
     }
 
-    public static ParkingLotParkingOrderAssociationRequest create(Long Id){
+    public static ParkingLotParkingOrderAssociationRequest create(Long parkingOrderId){
         final ParkingLotParkingOrderAssociationRequest request = new ParkingLotParkingOrderAssociationRequest();
-        request.Id = Id;
+        request.parkingOrderId = parkingOrderId;
         return request;
     }
 
     public void setId(Long id) {
-        Id = id;
+        parkingOrderId = id;
     }
 
     public boolean isVaild(){
-        return Id!=null;
+        return parkingOrderId!=null;
     }
 
 

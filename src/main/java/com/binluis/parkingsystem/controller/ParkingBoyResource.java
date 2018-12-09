@@ -85,6 +85,7 @@ public class ParkingBoyResource {
         parkingLot.get().setParkingBoy(parkingBoy.get());
         parkingLotRepository.saveAndFlush(parkingLot.get());
         return ResponseEntity.created(URI.create("/parkingclerks/"+id+"/parkinglots")).body(parkingLot);
+
     }
 
 

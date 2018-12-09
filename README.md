@@ -26,7 +26,7 @@
 
 #### UI
 - [ ]  Parking Boy UI View - Need to refactor
-- [ ]  Customers Car Parking Request Page
+- [x]  Customers Car Parking Request Page
 
 #### Authentication
 - [x] Sign Up

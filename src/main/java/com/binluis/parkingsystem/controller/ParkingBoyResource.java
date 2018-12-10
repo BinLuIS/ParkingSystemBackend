@@ -49,16 +49,22 @@ public class ParkingBoyResource {
     @GetMapping(path = "/{id}/orders")
     public ResponseEntity<ParkingOrderResponse[]> getAllAssociateParkingOrders(@PathVariable Long id,@RequestParam(required = false) String[] status){
         ParkingBoy parkingBoy= parkingBoyRepository.findOneById(id);
-        return ResponseEntity.ok((ParkingOrderResponse[])parkingBoy.getParkingOrders().stream().filter(order-> {
-            for (String s : status) {
-                if(order.getStatus().equals(s)){
-                    return true;
+        if(status!=null) {
+            return ResponseEntity.ok((ParkingOrderResponse[]) parkingBoy.getParkingOrders().stream().filter(order -> {
+                for (String s : status) {
+                    if (order.getStatus().equals(s)) {
+                        return true;
+                    }
                 }
-            }
-            return false;
-        })
-                .map(ParkingOrderResponse::create)
-                .toArray(ParkingOrderResponse[]::new));
+                return false;
+            })
+                    .map(ParkingOrderResponse::create)
+                    .toArray(ParkingOrderResponse[]::new));
+        }else{
+            return ResponseEntity.ok((ParkingOrderResponse[]) parkingBoy.getParkingOrders().stream().map(ParkingOrderResponse::create)
+                    .toArray(ParkingOrderResponse[]::new));
+
+        }
     }
 
     @PostMapping(path = "/{id}/orders")

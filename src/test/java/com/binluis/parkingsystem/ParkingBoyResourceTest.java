@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -47,6 +48,7 @@ public class ParkingBoyResourceTest {
     //When GET /parkingclerks,
     //Return 200 with a parkingBoys list [{"name": "string","email":"string","phoneNumber":"string","status":"string"}]
     @Test
+    @WithMockUser
     public void should_get_parking_boys() throws Exception {
         final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("boy1","boy1@email","12345678901","accept"));
         parkingBoyRepository.flush();
@@ -66,6 +68,7 @@ public class ParkingBoyResourceTest {
     //Given a parking boy {"name": "string","email":"string","phoneNumber":"string","status":"string"},
     //When POST /parkingclerks, Return 201
     @Test
+    @WithMockUser
     public void should_create_parking_boys() throws Exception {
         // Given
         final ParkingBoy boy = new ParkingBoy("boy1","boy1@email","12345678901","accept");
@@ -91,6 +94,7 @@ public class ParkingBoyResourceTest {
     //When POST /parkingclerks/{id}/parkingorders,
     //Then change parkingOrder status and return 201
     @Test
+    @WithMockUser
     public void should_parkingOrder_add_to_parkingBoy() throws Exception {
         ParkingBoy parkingBoy=new ParkingBoy("boy1","boy1@email","12345678901","available");
         ParkingOrder parkingOrder=new ParkingOrder("car1","park","pending");
@@ -113,6 +117,7 @@ public class ParkingBoyResourceTest {
     }
 
     @Test
+    @WithMockUser
     public void should_get_associate_parking_order_of_parking_boy() throws Exception{
         //Given
         final ParkingBoy parkingBoy=new ParkingBoy("boy1","boy1@email","12345678901","available");

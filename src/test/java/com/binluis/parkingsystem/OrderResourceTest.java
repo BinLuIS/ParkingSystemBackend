@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -37,6 +38,7 @@ public class OrderResourceTest {
     MockMvc mvc;
 
     @Test
+    @WithMockUser
     public void should_get_all_orders() throws Exception {
         ParkingOrder parkingOrder = new ParkingOrder("car2","park","accept");
         parkingOrderRepository.save(parkingOrder);
@@ -76,6 +78,7 @@ public class OrderResourceTest {
 //    }
 
     @Test
+    @WithMockUser
     public void should_create_parking_order_v1() throws Exception {
         // Given
         CreateParkingOrderRequest request = new CreateParkingOrderRequest().create("A123");
@@ -104,6 +107,7 @@ public class OrderResourceTest {
     }
 
     @Test
+    @WithMockUser
     public void should_make_car_fetching_request() throws Exception {
         // Given
         ParkingOrder parkingOrderWithCarParked = new ParkingOrder("ABC", "Parking", "Parked");

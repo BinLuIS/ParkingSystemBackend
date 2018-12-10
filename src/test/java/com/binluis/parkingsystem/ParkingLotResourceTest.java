@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -46,6 +47,7 @@ public class ParkingLotResourceTest {
     //When GET /parkingLots,
     //Return 200 with parking lots list [{"id": Long, "name":"string", "capacity": integer}]
     @Test
+    @WithMockUser
     public void should_get_parking_lots() throws Exception {
         final ParkingLot lot = parkingLotRepository.save(new ParkingLot("lot",10));
         parkingLotRepository.flush();
@@ -63,6 +65,7 @@ public class ParkingLotResourceTest {
     }
 
     @Test
+    @WithMockUser
     public void should_associate_parking_lot_with_parking_order() throws Exception{
         //Given
         final ParkingLot parkingLot = new ParkingLot("Lot1", 10);
@@ -84,6 +87,7 @@ public class ParkingLotResourceTest {
     }
 
     @Test
+    @WithMockUser
     public void should_get_associate_parking_order_of_parking_lot() throws Exception{
         //Given
         final ParkingLot parkingLot = new ParkingLot("Lot1", 10);

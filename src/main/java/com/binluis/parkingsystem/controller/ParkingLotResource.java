@@ -87,36 +87,7 @@ public class ParkingLotResource {
 
     }
 
-    @PutMapping(path = "/{id}/orders/{carNumber}")
-    public ResponseEntity<ParkingOrder> fetchCarFromParkingLot(@PathVariable Long id, @PathVariable String carNumber){
-        Optional<ParkingLot> parkingLot = parkingLotRepository.findById(id);
-        int removedIndex = -1;
-        Long orderId = null;
-        if(!parkingLot.isPresent()){
-            return ResponseEntity.badRequest().build();
-        }
-        int i=0;
-        for (ParkingOrder parkingOrder: parkingLot.get().getParkingOrders()) {
-            if(parkingOrder.getCarNumber().equals(carNumber)){
-                removedIndex = i;
-                orderId = parkingOrder.getId();
-            }
-            i++;
-        }
-        if(removedIndex==-1){
-            return ResponseEntity.badRequest().build();
-        }
-        parkingLot.get().getParkingOrders().remove(removedIndex);
-        parkingLotRepository.save(parkingLot.get());
 
-        Optional<ParkingOrder> parkingOrder = parkingOrderRepository.findById(orderId);
-        if(!parkingOrder.isPresent()){
-            return ResponseEntity.badRequest().build();
-        }
-        parkingOrder.get().setParkingLot(null);
-        parkingOrderRepository.saveAndFlush(parkingOrder.get());
-        return ResponseEntity.ok().body(parkingOrder.get());
-    }
 
 
 

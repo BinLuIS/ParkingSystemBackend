@@ -122,7 +122,6 @@ public class ParkingBoyResource {
 
     @PutMapping(path = "/{id}/orders/{carNumber}")
     public ResponseEntity<ParkingOrder> fetchCar(@PathVariable Long id, @PathVariable String carNumber){
-        //Change order stage in parking clerk's orders list
         Optional<ParkingBoy> parkingBoy = parkingBoyRepository.findById(id);
         Long orderId = null;
         if(!parkingBoy.isPresent()){
@@ -131,20 +130,17 @@ public class ParkingBoyResource {
         ParkingOrder selectedOrder = null;
         for (ParkingOrder parkingOrder: parkingBoy.get().getParkingOrders()){
             if(parkingOrder.getCarNumber().equals(carNumber)){
-                parkingOrder.setStatus("Fetched");
                 orderId = parkingOrder.getId();
             }
         }
         if(orderId==null){
             return ResponseEntity.badRequest().build();
         }
-        //Change status of order in orders' DB
         Optional<ParkingOrder> parkingOrder = parkingOrderRepository.findById(orderId);
         if(!parkingOrder.isPresent()){
             return ResponseEntity.badRequest().build();
         }
         parkingOrder.get().setStatus("Fetched");
-        parkingOrder.get().setParkingBoy(null);
         parkingOrderRepository.saveAndFlush(parkingOrder.get());
         return ResponseEntity.ok().body(parkingOrder.get());
     }

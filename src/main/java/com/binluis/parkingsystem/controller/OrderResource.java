@@ -41,12 +41,6 @@ public class OrderResource {
         }
         return ResponseEntity.ok(allOrders);
     }
-
-    @GetMapping(path = "?status={status}",produces = {"application/json"})
-    public ResponseEntity<List<ParkingOrder>> getAllOrdersWithStaus(@PathVariable String status) {
-        List<ParkingOrder> allOrders = parkingOrderRepository.findAllByStatus(status);
-        return ResponseEntity.ok(allOrders);
-    }
 //
 //    @PostMapping
 //    public ResponseEntity add(@RequestBody ParkingOrder parkingOrder) {
@@ -80,6 +74,22 @@ public class OrderResource {
             parkingOrderRepository.saveAndFlush(parkingOrder.get());
         }
         return ResponseEntity.created(URI.create("/orders/"+id)).body(parkingOrder);
+    }
+
+    @PostMapping(produces = {"application/json"})
+    public ResponseEntity createOrder(@RequestBody CreateParkingOrderRequest request){
+        if(!request.isVaild()){
+
+            return ResponseEntity.badRequest().body("Invaild Car Number");
+        }
+        try{
+            ParkingOrder order = new ParkingOrder(request.getCarNumber(), "parking", "pendingParking");
+            parkingOrderRepository.saveAndFlush(order);
+            return ResponseEntity.created(URI.create("/orders/"+order.getId())).body(order);
+        }
+        catch (DataIntegrityViolationException e){
+            return ResponseEntity.badRequest().build();
+        }
     }
 
 }

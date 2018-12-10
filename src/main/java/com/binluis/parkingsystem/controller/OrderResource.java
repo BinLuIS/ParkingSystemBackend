@@ -32,8 +32,19 @@ public class OrderResource {
     ParkingLotRepository parkingLotRepository;
 
     @GetMapping(produces = {"application/json"})
-    public ResponseEntity<List<ParkingOrder>> getAllOrders() {
-        List<ParkingOrder> allOrders = parkingOrderRepository.findAll();
+    public ResponseEntity<List<ParkingOrder>> getAllOrders(@RequestParam(required = false) String status) {
+        List<ParkingOrder> allOrders=null;
+        if(status!=null){
+           allOrders = parkingOrderRepository.findAllByStatus(status);
+        }else {
+            allOrders = parkingOrderRepository.findAll();
+        }
+        return ResponseEntity.ok(allOrders);
+    }
+
+    @GetMapping(path = "?status={status}",produces = {"application/json"})
+    public ResponseEntity<List<ParkingOrder>> getAllOrdersWithStaus(@PathVariable String status) {
+        List<ParkingOrder> allOrders = parkingOrderRepository.findAllByStatus(status);
         return ResponseEntity.ok(allOrders);
     }
 //

@@ -20,9 +20,7 @@ import javax.persistence.EntityManager;
 import static com.binluis.parkingsystem.WebTestUtil.asJsonString;
 import static com.binluis.parkingsystem.WebTestUtil.getContentAsObject;
 import static org.junit.Assert.assertEquals;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -113,9 +111,10 @@ public class OrderResourceTest {
         // Given
         ParkingOrder parkingOrderWithCarParked = new ParkingOrder("ABC", "parking", "parked");
         parkingOrderRepository.saveAndFlush(parkingOrderWithCarParked);
+        CreateParkingOrderRequest request=new CreateParkingOrderRequest("ABC","pendingFetching");
         // When
-        mvc.perform(put("/orders/"+parkingOrderWithCarParked.getId().toString()))
-                .andExpect(status().isCreated());
+        mvc.perform(patch("/orders/"+parkingOrderWithCarParked.getId()).content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON))
+                .andReturn();
         //Then
         assertEquals("fetching",parkingOrderRepository.findAll().get(0).getRequestType());
         assertEquals("pendingFetching",parkingOrderRepository.findAll().get(0).getStatus());

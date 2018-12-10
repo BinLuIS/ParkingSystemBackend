@@ -11,6 +11,14 @@ public class CreateParkingOrderRequest {
     private ParkingBoy parkingBoy;
     private ParkingLot parkingLot;
 
+    public CreateParkingOrderRequest() {
+    }
+
+    public CreateParkingOrderRequest(String carNumber, String status) {
+        this.carNumber = carNumber;
+        this.status = status;
+    }
+
     //Methods
     public String getCarNumber() {
         return carNumber;

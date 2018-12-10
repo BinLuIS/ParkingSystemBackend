@@ -55,34 +55,30 @@ public class OrderResource {
 //        return ResponseEntity.created(URI.create("/parkingclerks")).body(parkingOrder);
 //    }
 
-    @PostMapping(produces = {"application/json"})
-    public ResponseEntity createOrder(@RequestBody CreateParkingOrderRequest request){
-        if(!request.isVaild()){
 
-            return ResponseEntity.badRequest().body("Invaild Car Number");
-        }
-        try{
-            ParkingOrder order = new ParkingOrder(request.getCarNumber(), "parking", "pendingParking");
-            parkingOrderRepository.saveAndFlush(order);
-            return ResponseEntity.created(URI.create("/orders/"+order.getId())).body(order);
-        }
-        catch (DataIntegrityViolationException e){
-            return ResponseEntity.badRequest().build();
-        }
-    }
-
-    @PutMapping(path = "/{id}",produces = {"application/json"})
-    public ResponseEntity makeCarFetchingRequest(@PathVariable Long id){
+    @PatchMapping(path = "/{id}",produces = {"application/json"})
+    public ResponseEntity makeCarFetchingRequest(@PathVariable Long id,@RequestBody CreateParkingOrderRequest request){
         Optional<ParkingOrder> parkingOrder=parkingOrderRepository.findById(id);
+        System.out.println(parkingOrder.get().getCarNumber()+"!!!!!");
         if(!parkingOrder.isPresent()){
             return ResponseEntity.badRequest().build();
         }
-        if(!parkingOrder.get().getStatus().equals("parked")){
-            return ResponseEntity.badRequest().build();
+        if(request.getStatus().equals("pendingFetching")) {
+            System.out.println("in if 1");
+            if (!parkingOrder.get().getStatus().equals("parked")) {
+                return ResponseEntity.badRequest().build();
+            }
+            parkingOrder.get().setRequestType("fetching");
+            parkingOrder.get().setStatus("pendingFetching");
+            parkingOrderRepository.saveAndFlush(parkingOrder.get());
         }
-        parkingOrder.get().setRequestType("fetching");
-        parkingOrder.get().setStatus("pendingFetching");
-        parkingOrderRepository.saveAndFlush(parkingOrder.get());
+        if(request.getStatus().equals("completed")){
+            if(!parkingOrder.get().getStatus().equals("pendingFetching")) {
+                return ResponseEntity.badRequest().build();
+            }
+            parkingOrder.get().setStatus("completed");
+            parkingOrderRepository.saveAndFlush(parkingOrder.get());
+        }
         return ResponseEntity.created(URI.create("/orders/"+id)).body(parkingOrder);
     }
 

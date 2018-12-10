@@ -10,4 +10,6 @@ public interface ParkingOrderRepository  extends JpaRepository<ParkingOrder, Lon
     ParkingOrder findOneById (Long Id);
 
     List<ParkingOrder> findAllByStatus(String status);
+
+    ParkingOrder findOneByCarNumber(String carName);
 }

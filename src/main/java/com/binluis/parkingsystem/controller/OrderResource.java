@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -32,10 +33,17 @@ public class OrderResource {
     ParkingLotRepository parkingLotRepository;
 
     @GetMapping(produces = {"application/json"})
-    public ResponseEntity<List<ParkingOrder>> getAllOrders(@RequestParam(required = false) String status) {
+    public ResponseEntity<List<ParkingOrder>> getAllOrders(@RequestParam(required = false) String status,@RequestParam(required = false) String carName) {
         List<ParkingOrder> allOrders=null;
         if(status!=null){
            allOrders = parkingOrderRepository.findAllByStatus(status);
+        }else if(carName!=null){
+            List<ParkingOrder> orders=new ArrayList<>();
+            ParkingOrder order=parkingOrderRepository.findOneByCarNumber(carName);
+            if(order!=null) {
+                orders.add(order);
+            }
+            allOrders = orders;
         }else {
             allOrders = parkingOrderRepository.findAll();
         }

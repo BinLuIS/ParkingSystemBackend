@@ -3,11 +3,7 @@ logging:
   level:
     org:
       springframework:
-        web: ERROR
-        core: ERROR
-        beans: ERROR
-        context: ERROR
-        transaction: ERROR
+        web: DEBUG
       hibernate: DEBUG
 spring:
   datasource:

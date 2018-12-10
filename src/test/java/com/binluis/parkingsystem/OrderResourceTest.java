@@ -116,7 +116,7 @@ public class OrderResourceTest {
         mvc.perform(post("/orders/"+parkingOrderWithCarParked.getId().toString()))
                 .andExpect(status().isCreated());
         //Then
-        assertEquals("pendingFetching",parkingOrderRepository.findAll().get(0).getRequestType());
+        assertEquals("fetching",parkingOrderRepository.findAll().get(0).getRequestType());
         assertEquals("pendingFetching",parkingOrderRepository.findAll().get(0).getStatus());
 
 

@@ -22,6 +22,7 @@ import static com.binluis.parkingsystem.WebTestUtil.getContentAsObject;
 import static org.junit.Assert.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -113,7 +114,7 @@ public class OrderResourceTest {
         ParkingOrder parkingOrderWithCarParked = new ParkingOrder("ABC", "parking", "parked");
         parkingOrderRepository.saveAndFlush(parkingOrderWithCarParked);
         // When
-        mvc.perform(post("/orders/"+parkingOrderWithCarParked.getId().toString()))
+        mvc.perform(put("/orders/"+parkingOrderWithCarParked.getId().toString()))
                 .andExpect(status().isCreated());
         //Then
         assertEquals("fetching",parkingOrderRepository.findAll().get(0).getRequestType());

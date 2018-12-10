@@ -71,7 +71,7 @@ public class OrderResource {
         }
     }
 
-    @PostMapping(path = "/{id}",produces = {"application/json"})
+    @PutMapping(path = "/{id}",produces = {"application/json"})
     public ResponseEntity makeCarFetchingRequest(@PathVariable Long id){
         Optional<ParkingOrder> parkingOrder=parkingOrderRepository.findById(id);
         if(!parkingOrder.isPresent()){

@@ -52,7 +52,7 @@ public class ParkingLotResource {
     public ResponseEntity associateParkingLotWithParkingOrder(
             @PathVariable Long id,
             @RequestBody ParkingLotParkingOrderAssociationRequest request
-            ){
+    ){
         if(!request.isVaild()){
             return ResponseEntity.badRequest().build();
         }
@@ -68,11 +68,12 @@ public class ParkingLotResource {
         }
 
         parkingOrder.setParkingLot(parkingLot);
+        parkingLot.getParkingOrders().add(parkingOrder);
         parkingOrder.setStatus("Parked");
         parkingOrderRepository.saveAndFlush(parkingOrder);
-        return ResponseEntity.created(URI.create("parkinglots/"+parkingLot.getId()+"/orders")).body(parkingOrder);
+        int availableCapacity = parkingLot.getCapacity()-parkingLot.getParkingOrders().size();
+        ParkingLotResponse parkingLotResponse = ParkingLotResponse.create(parkingLot.getId(), parkingLot.getName(), parkingLot.getCapacity(), availableCapacity);
+        return ResponseEntity.created(URI.create("parkinglots/"+parkingLot.getId()+"/orders")).body(parkingLotResponse);
     }
-
-
 
 }

@@ -13,15 +13,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-
 import javax.persistence.EntityManager;
-
 import static com.binluis.parkingsystem.WebTestUtil.asJsonString;
 import static com.binluis.parkingsystem.WebTestUtil.getContentAsObject;
 import static org.junit.Assert.assertEquals;
@@ -70,20 +69,21 @@ public class ParkingLotResourceTest {
         //Given
         final ParkingLot parkingLot = new ParkingLot("Lot1", 10);
         final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "Parking", "Pending");
-        parkingLotRepository.save(parkingLot);
-        parkingLotRepository.flush();
-        parkingOrderRepository.save(parkingOrder);
-        parkingOrderRepository.flush();
+        parkingLotRepository.saveAndFlush(parkingLot);
+        parkingOrderRepository.saveAndFlush(parkingOrder);
 
         ParkingLotParkingOrderAssociationRequest request = ParkingLotParkingOrderAssociationRequest.create(parkingOrder.getId());
 
         //When
-        mvc.perform(post("/parkinglots/"+ parkingLot.getId()+"/orders")
+        MvcResult result = mvc.perform(post("/parkinglots/" + parkingLot.getId() + "/orders")
                 .content(asJsonString(request)).contentType(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated());
+                .andReturn();
+
+        final ParkingLotResponse parkingOrderResponse = getContentAsObject(result, ParkingLotResponse.class);
 
         //Then
-
+        assertEquals(201, result.getResponse().getStatus());
+        assertEquals(9,parkingOrderResponse.getavailableCapacity());
     }
 
     @Test

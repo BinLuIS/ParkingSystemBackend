@@ -9,6 +9,7 @@ public class ParkingLotResponse {
     private Long id;
     private String name;
     private int capacity;
+    private int availableCapacity;
 
     public Long getId() {
         return id;
@@ -34,6 +35,14 @@ public class ParkingLotResponse {
         this.capacity = capacity;
     }
 
+    public int getavailableCapacity() {
+        return availableCapacity;
+    }
+
+    public void setavailableCapacity(int availableCapacity) {
+        this.availableCapacity = availableCapacity;
+    }
+
     public static ParkingLotResponse create(Long id,String name, int capacity) {
         Objects.requireNonNull(id);
 
@@ -41,6 +50,17 @@ public class ParkingLotResponse {
         response.setId(id);
         response.setName(name);
         response.setCapacity(capacity);
+        return response;
+    }
+
+    public static ParkingLotResponse create(Long id,String name, int capacity,int availableCapacity) {
+        Objects.requireNonNull(id);
+
+        final ParkingLotResponse response = new ParkingLotResponse();
+        response.setId(id);
+        response.setName(name);
+        response.setCapacity(capacity);
+        response.setavailableCapacity(availableCapacity);
         return response;
     }
 

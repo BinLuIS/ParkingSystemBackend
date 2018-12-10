@@ -11,6 +11,9 @@ public class ParkingLotResponse {
     private int capacity;
     private int availableCapacity;
 
+
+
+
     public Long getId() {
         return id;
     }

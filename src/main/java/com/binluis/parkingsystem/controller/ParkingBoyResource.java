@@ -1,10 +1,7 @@
 package com.binluis.parkingsystem.controller;
 
 import com.binluis.parkingsystem.domain.*;
-import com.binluis.parkingsystem.models.ParkingBoyParkingLotAssociationRequest;
-import com.binluis.parkingsystem.models.ParkingBoyParkingOrderAssociationRequest;
-import com.binluis.parkingsystem.models.ParkingBoyResponse;
-import com.binluis.parkingsystem.models.ParkingOrderResponse;
+import com.binluis.parkingsystem.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +11,8 @@ import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @CrossOrigin(origins = {"http://localhost:3000","https://parkingwebappmobile.herokuapp.com","https://binluis-parkingwebapp.herokuapp.com"})
@@ -95,12 +94,19 @@ public class ParkingBoyResource {
         return ResponseEntity.created(URI.create("/parkingclerks/"+id+"/parkinglots")).body(parkingLot);
 
     }
+    
 
     @GetMapping(path = "/{id}/parkinglots")
     public ResponseEntity getParkingLot(@PathVariable Long id){
         ParkingBoy parkingBoy = parkingBoyRepository.findOneById(id);
-        return ResponseEntity.ok(parkingBoy.getParkingLots());
+        List<ParkingLotResponse> parkingLotOfParkingBoy = parkingBoy.getParkingLots().stream().map(e -> {
+            int availableCapacity = e.getCapacity() - e.getParkingOrders().size();
+            return ParkingLotResponse.create(e.getId(), e.getName(), e.getCapacity(), availableCapacity);
+        }).collect(Collectors.toList());
+
+        return ResponseEntity.ok(parkingLotOfParkingBoy);
     }
+
 
 
 

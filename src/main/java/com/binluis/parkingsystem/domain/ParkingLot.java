@@ -74,6 +74,7 @@ public class ParkingLot {
         this.parkingBoy = parkingBoy;
     }
 
+    @JsonIgnore
     public int getVacancy(){
         int fetchedOrder=0;
         for (ParkingOrder parkingOrder: parkingOrders) {

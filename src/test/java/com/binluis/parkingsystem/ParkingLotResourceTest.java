@@ -113,4 +113,23 @@ public class ParkingLotResourceTest {
         assertEquals("pendingParking",parkingOrderResponses[0].getStatus());
     }
 
+    @Test
+    @WithMockUser
+    public void should_get_parking_lot_by_id() throws Exception{
+        final ParkingLot parkingLot = new ParkingLot("Lot1", 10);
+        parkingLotRepository.save(parkingLot);
+        parkingLotRepository.flush();
+
+        final  MvcResult result = mvc.perform(get("/parkinglots/"+parkingLot.getId())).andReturn();
+        assertEquals(200, result.getResponse().getStatus());
+
+        final ParkingLot parkingLot1 = getContentAsObject(result, ParkingLot.class);
+
+
+        assertEquals("Lot1", parkingLot1.getName());
+        assertEquals(10, parkingLot1.getCapacity());
+
+
+    }
+
 }

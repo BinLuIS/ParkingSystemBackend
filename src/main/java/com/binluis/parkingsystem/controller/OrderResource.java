@@ -33,13 +33,13 @@ public class OrderResource {
     ParkingLotRepository parkingLotRepository;
 
     @GetMapping(produces = {"application/json"})
-    public ResponseEntity<List<ParkingOrder>> getAllOrders(@RequestParam(required = false) String status,@RequestParam(required = false) String carName) {
+    public ResponseEntity<List<ParkingOrder>> getAllOrders(@RequestParam(required = false) String status,@RequestParam(required = false) String carNumber) {
         List<ParkingOrder> allOrders=null;
         if(status!=null){
            allOrders = parkingOrderRepository.findAllByStatus(status);
-        }else if(carName!=null){
+        }else if(carNumber!=null){
             List<ParkingOrder> orders=new ArrayList<>();
-            ParkingOrder order=parkingOrderRepository.findOneByCarNumber(carName);
+            ParkingOrder order=parkingOrderRepository.findOneByCarNumber(carNumber);
             if(order!=null) {
                 orders.add(order);
             }

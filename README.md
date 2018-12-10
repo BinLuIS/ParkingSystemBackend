@@ -36,10 +36,6 @@
 - [x] Manager: addParkingLotsToParkingBoys, ViewParkingLotsOfParkingBoys, AssignOrderToParkingBoys
 - [x] System Admin: Create parkinglots, create parkingboys,view all parking lots, view all orders
 
-#### UI
-- [ ]  Parking Boy UI View - Need to refactor
-- [x]  Customers Car Parking Request Page
-
 #### Authentication
 - [x] Sign Up
 - [x] Sign In Phrase 1 - Get Token
@@ -47,4 +43,7 @@
 - [ ] Sign In Phrase 3 - Reuse token throughout web surfing
 
 
-
+### Iteration 2
+#### APIs
+- [x] Update parkingOrder status choice: pending, accepted, parked, completed
+- [x] Update POST /parkinglots/{id}/orders output such that it inclues availableCapacity

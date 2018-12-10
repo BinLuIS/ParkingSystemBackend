@@ -9,7 +9,7 @@ cache:
     - $HOME/.gradle
 script:
   - ./gradlew clean
-  - ./gradlew test
+  - ./gradlew test -q
   - ./gradlew bootJar -x test
 deploy:
   provider: heroku

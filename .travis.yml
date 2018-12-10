@@ -10,7 +10,7 @@ cache:
 script:
   - ./gradlew clean
   - ./gradlew test -q
-  - ./gradlew bootJar -x test
+  - ./gradlew bootJar -x test -q
 deploy:
   provider: heroku
   api_key:

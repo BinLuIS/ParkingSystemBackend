@@ -95,14 +95,14 @@ public class OrderResourceTest {
 
         assertEquals("A123", createdOrder.getCarNumber());
         assertEquals("parking",createdOrder.getRequestType());
-        assertEquals("pending parking",createdOrder.getStatus());
+        assertEquals("pendingParking",createdOrder.getStatus());
 
         ParkingOrder[] parkingOrders = getContentAsObject(
                 mvc.perform(get("/orders")).andReturn(),ParkingOrder[].class);
         assertEquals(1, parkingOrders.length);
         assertEquals("A123", parkingOrders[0].getCarNumber());
         assertEquals("parking",parkingOrders[0].getRequestType());
-        assertEquals("pending parking",parkingOrders[0].getStatus());
+        assertEquals("pendingParking",parkingOrders[0].getStatus());
 
     }
 
@@ -116,8 +116,8 @@ public class OrderResourceTest {
         mvc.perform(post("/orders/"+parkingOrderWithCarParked.getId().toString()))
                 .andExpect(status().isCreated());
         //Then
-        assertEquals("pending fetching",parkingOrderRepository.findAll().get(0).getRequestType());
-        assertEquals("pending fetching",parkingOrderRepository.findAll().get(0).getStatus());
+        assertEquals("pendingFetching",parkingOrderRepository.findAll().get(0).getRequestType());
+        assertEquals("pendingFetching",parkingOrderRepository.findAll().get(0).getStatus());
 
 
 

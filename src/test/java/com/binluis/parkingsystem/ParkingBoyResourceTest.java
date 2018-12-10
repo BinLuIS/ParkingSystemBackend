@@ -97,7 +97,7 @@ public class ParkingBoyResourceTest {
     @WithMockUser
     public void should_parkingOrder_add_to_parkingBoy() throws Exception {
         ParkingBoy parkingBoy=new ParkingBoy("boy1","boy1@email","12345678901","available");
-        ParkingOrder parkingOrder=new ParkingOrder("car1","parking","pending parking");
+        ParkingOrder parkingOrder=new ParkingOrder("car1","parking","pendingParking");
         parkingBoyRepository.save(parkingBoy);
         parkingBoyRepository.flush();
         parkingOrderRepository.save(parkingOrder);
@@ -121,7 +121,7 @@ public class ParkingBoyResourceTest {
     public void should_get_associate_parking_order_of_parking_boy() throws Exception{
         //Given
         final ParkingBoy parkingBoy=new ParkingBoy("boy1","boy1@email","12345678901","available");
-        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "parking", "pending parking");
+        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "parking", "pendingParking");
         parkingOrder.setParkingBoy(parkingBoy);
         parkingBoyRepository.save(parkingBoy);
         parkingLotRepository.flush();
@@ -140,6 +140,6 @@ public class ParkingBoyResourceTest {
         assertEquals(1, parkingOrderResponses.length);
         assertEquals("ABC1", parkingOrderResponses[0].getCarNumber());
         assertEquals("parking",parkingOrderResponses[0].getRequestType());
-        assertEquals("pending parking",parkingOrderResponses[0].getStatus());
+        assertEquals("pendingParking",parkingOrderResponses[0].getStatus());
     }
 }

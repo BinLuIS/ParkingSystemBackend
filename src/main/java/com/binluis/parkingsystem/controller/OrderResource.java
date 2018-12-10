@@ -62,7 +62,7 @@ public class OrderResource {
             return ResponseEntity.badRequest().body("Invaild Car Number");
         }
         try{
-            ParkingOrder order = new ParkingOrder(request.getCarNumber(), "parking", "pending parking");
+            ParkingOrder order = new ParkingOrder(request.getCarNumber(), "parking", "pendingParking");
             parkingOrderRepository.saveAndFlush(order);
             return ResponseEntity.created(URI.create("/orders/"+order.getId())).body(order);
         }
@@ -81,7 +81,7 @@ public class OrderResource {
             return ResponseEntity.badRequest().build();
         }
         parkingOrder.get().setRequestType("fetching");
-        parkingOrder.get().setStatus("pending fetching");
+        parkingOrder.get().setStatus("pendingFetching");
         parkingOrderRepository.saveAndFlush(parkingOrder.get());
         return ResponseEntity.created(URI.create("/orders/"+id)).body(parkingOrder);
     }

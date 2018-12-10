@@ -71,7 +71,7 @@ public class ParkingBoyResourceTest {
     @WithMockUser
     public void should_create_parking_boys() throws Exception {
         // Given
-        final ParkingBoy boy = new ParkingBoy("boy1","boy1@email","12345678901","accept");
+        final ParkingBoy boy = new ParkingBoy("boy1","boy1@email","12345678901","accepted");
 
         // When
         final MvcResult result = mvc.perform(MockMvcRequestBuilders
@@ -87,7 +87,7 @@ public class ParkingBoyResourceTest {
         assertEquals("boy1", createdBoy.getName());
         assertEquals("boy1@email",createdBoy.getEmail());
         assertEquals("12345678901",createdBoy.getPhoneNumber());
-        assertEquals("accept",createdBoy.getStatus());
+        assertEquals("accepted",createdBoy.getStatus());
     }
 
     //Given parkingBoy id and ParkingBoyParkingOrderAssociationRequest {"parkingOrderId" : Long},
@@ -97,7 +97,7 @@ public class ParkingBoyResourceTest {
     @WithMockUser
     public void should_parkingOrder_add_to_parkingBoy() throws Exception {
         ParkingBoy parkingBoy=new ParkingBoy("boy1","boy1@email","12345678901","available");
-        ParkingOrder parkingOrder=new ParkingOrder("car1","park","pending");
+        ParkingOrder parkingOrder=new ParkingOrder("car1","parking","pending parking");
         parkingBoyRepository.save(parkingBoy);
         parkingBoyRepository.flush();
         parkingOrderRepository.save(parkingOrder);
@@ -121,7 +121,7 @@ public class ParkingBoyResourceTest {
     public void should_get_associate_parking_order_of_parking_boy() throws Exception{
         //Given
         final ParkingBoy parkingBoy=new ParkingBoy("boy1","boy1@email","12345678901","available");
-        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "Parking", "Pending");
+        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "parking", "pending parking");
         parkingOrder.setParkingBoy(parkingBoy);
         parkingBoyRepository.save(parkingBoy);
         parkingLotRepository.flush();
@@ -139,7 +139,7 @@ public class ParkingBoyResourceTest {
 
         assertEquals(1, parkingOrderResponses.length);
         assertEquals("ABC1", parkingOrderResponses[0].getCarNumber());
-        assertEquals("Parking",parkingOrderResponses[0].getRequestType());
-        assertEquals("Pending",parkingOrderResponses[0].getStatus());
+        assertEquals("parking",parkingOrderResponses[0].getRequestType());
+        assertEquals("pending parking",parkingOrderResponses[0].getStatus());
     }
 }

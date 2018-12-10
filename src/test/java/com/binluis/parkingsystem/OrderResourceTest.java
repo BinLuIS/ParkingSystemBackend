@@ -40,7 +40,7 @@ public class OrderResourceTest {
     @Test
     @WithMockUser
     public void should_get_all_orders() throws Exception {
-        ParkingOrder parkingOrder = new ParkingOrder("car2","park","accept");
+        ParkingOrder parkingOrder = new ParkingOrder("car2","park","accepted");
         parkingOrderRepository.save(parkingOrder);
         parkingOrderRepository.flush();
 
@@ -51,7 +51,7 @@ public class OrderResourceTest {
         assertEquals(1,parkingOrders.length);
         assertEquals("car2",parkingOrders[0].getCarNumber());
         assertEquals("park",parkingOrders[0].getRequestType());
-        assertEquals("accept",parkingOrders[0].getStatus());
+        assertEquals("accepted",parkingOrders[0].getStatus());
     }
 
 
@@ -94,15 +94,15 @@ public class OrderResourceTest {
         entityManager.clear();
 
         assertEquals("A123", createdOrder.getCarNumber());
-        assertEquals("Parking",createdOrder.getRequestType());
-        assertEquals("Pending",createdOrder.getStatus());
+        assertEquals("parking",createdOrder.getRequestType());
+        assertEquals("pending parking",createdOrder.getStatus());
 
         ParkingOrder[] parkingOrders = getContentAsObject(
                 mvc.perform(get("/orders")).andReturn(),ParkingOrder[].class);
         assertEquals(1, parkingOrders.length);
         assertEquals("A123", parkingOrders[0].getCarNumber());
-        assertEquals("Parking",parkingOrders[0].getRequestType());
-        assertEquals("Pending",parkingOrders[0].getStatus());
+        assertEquals("parking",parkingOrders[0].getRequestType());
+        assertEquals("pending parking",parkingOrders[0].getStatus());
 
     }
 
@@ -110,14 +110,14 @@ public class OrderResourceTest {
     @WithMockUser
     public void should_make_car_fetching_request() throws Exception {
         // Given
-        ParkingOrder parkingOrderWithCarParked = new ParkingOrder("ABC", "Parking", "Parked");
+        ParkingOrder parkingOrderWithCarParked = new ParkingOrder("ABC", "parking", "parked");
         parkingOrderRepository.saveAndFlush(parkingOrderWithCarParked);
         // When
         mvc.perform(post("/orders/"+parkingOrderWithCarParked.getId().toString()))
                 .andExpect(status().isCreated());
         //Then
-        assertEquals("Fetching",parkingOrderRepository.findAll().get(0).getRequestType());
-        assertEquals("Fetching",parkingOrderRepository.findAll().get(0).getStatus());
+        assertEquals("pending fetching",parkingOrderRepository.findAll().get(0).getRequestType());
+        assertEquals("pending fetching",parkingOrderRepository.findAll().get(0).getStatus());
 
 
 

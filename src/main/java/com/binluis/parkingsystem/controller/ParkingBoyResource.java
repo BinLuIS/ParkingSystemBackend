@@ -75,7 +75,7 @@ public class ParkingBoyResource {
             return ResponseEntity.status(HttpStatus.CONFLICT).build();
         }
         parkingOrder.get().setParkingBoy(parkingBoy.get());
-        parkingOrder.get().setStatus("Accepted");
+        parkingOrder.get().setStatus("accepted");
         parkingOrderRepository.saveAndFlush(parkingOrder.get());
         return ResponseEntity.created(URI.create("/orders")).body(parkingOrder);
     }

@@ -69,7 +69,7 @@ public class ParkingLotResource {
 
         parkingOrder.setParkingLot(parkingLot);
         parkingLot.getParkingOrders().add(parkingOrder);
-        parkingOrder.setStatus("Parked");
+        parkingOrder.setStatus("parked");
         parkingOrderRepository.saveAndFlush(parkingOrder);
         int availableCapacity = parkingLot.getCapacity()-parkingLot.getParkingOrders().size();
         ParkingLotResponse parkingLotResponse = ParkingLotResponse.create(parkingLot.getId(), parkingLot.getName(), parkingLot.getCapacity(), availableCapacity);

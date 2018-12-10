@@ -62,7 +62,7 @@ public class OrderResource {
             return ResponseEntity.badRequest().body("Invaild Car Number");
         }
         try{
-            ParkingOrder order = new ParkingOrder(request.getCarNumber(), "Parking", "Pending");
+            ParkingOrder order = new ParkingOrder(request.getCarNumber(), "parking", "pending parking");
             parkingOrderRepository.saveAndFlush(order);
             return ResponseEntity.created(URI.create("/orders/"+order.getId())).body(order);
         }
@@ -77,11 +77,11 @@ public class OrderResource {
         if(!parkingOrder.isPresent()){
             return ResponseEntity.badRequest().build();
         }
-        if(!parkingOrder.get().getStatus().equals("Parked")){
+        if(!parkingOrder.get().getStatus().equals("parked")){
             return ResponseEntity.badRequest().build();
         }
-        parkingOrder.get().setRequestType("Fetching");
-        parkingOrder.get().setStatus("Fetching");
+        parkingOrder.get().setRequestType("fetching");
+        parkingOrder.get().setStatus("pending fetching");
         parkingOrderRepository.saveAndFlush(parkingOrder.get());
         return ResponseEntity.created(URI.create("/orders/"+id)).body(parkingOrder);
     }

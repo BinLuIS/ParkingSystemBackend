@@ -68,7 +68,7 @@ public class ParkingLotResourceTest {
     public void should_associate_parking_lot_with_parking_order() throws Exception{
         //Given
         final ParkingLot parkingLot = new ParkingLot("Lot1", 10);
-        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "Parking", "Pending");
+        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "parking", "pending parking");
         parkingLotRepository.saveAndFlush(parkingLot);
         parkingOrderRepository.saveAndFlush(parkingOrder);
 
@@ -91,7 +91,7 @@ public class ParkingLotResourceTest {
     public void should_get_associate_parking_order_of_parking_lot() throws Exception{
         //Given
         final ParkingLot parkingLot = new ParkingLot("Lot1", 10);
-        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "Parking", "Pending");
+        final ParkingOrder parkingOrder = new ParkingOrder("ABC1", "parking", "pending parking");
         parkingOrder.setParkingLot(parkingLot);
         parkingLotRepository.save(parkingLot);
         parkingLotRepository.flush();
@@ -109,8 +109,8 @@ public class ParkingLotResourceTest {
 
         assertEquals(1, parkingOrderResponses.length);
         assertEquals("ABC1", parkingOrderResponses[0].getCarNumber());
-        assertEquals("Parking",parkingOrderResponses[0].getRequestType());
-        assertEquals("Pending",parkingOrderResponses[0].getStatus());
+        assertEquals("parking",parkingOrderResponses[0].getRequestType());
+        assertEquals("pending parking",parkingOrderResponses[0].getStatus());
     }
 
 }

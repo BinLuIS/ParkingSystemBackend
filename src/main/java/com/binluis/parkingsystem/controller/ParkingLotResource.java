@@ -76,4 +76,14 @@ public class ParkingLotResource {
         return ResponseEntity.created(URI.create("parkinglots/"+parkingLot.getId()+"/orders")).body(parkingLotResponse);
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<ParkingLot> getParkingLotById (@PathVariable Long id){
+        Optional<ParkingLot> parkingLot = parkingLotRepository.findById(id);
+        if(!parkingLot.isPresent()){
+            return ResponseEntity.badRequest().build();
+        }
+        return ResponseEntity.ok().body(parkingLot.get());
+
+    }
+
 }

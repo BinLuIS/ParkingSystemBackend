@@ -3,8 +3,8 @@ logging:
   level:
     org:
       springframework:
-        web: DEBUG
-      hibernate: DEBUG
+        web: OFF
+      hibernate: OFF
 spring:
   datasource:
     url:  jdbc:h2:file:./h2/binluis

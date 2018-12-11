@@ -73,4 +73,15 @@ public class ParkingLot {
     public void setParkingBoy(ParkingBoy parkingBoy) {
         this.parkingBoy = parkingBoy;
     }
+
+    @JsonIgnore
+    public int getVacancy(){
+        int fetchedOrder=0;
+        for (ParkingOrder parkingOrder: parkingOrders) {
+            if(parkingOrder.getStatus().equals("Fetched")){
+                fetchedOrder++;
+            }
+        }
+        return capacity - parkingOrders.size()+fetchedOrder;
+    }
 }

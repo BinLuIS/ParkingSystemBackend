@@ -120,6 +120,31 @@ public class ParkingBoyResource {
         return ResponseEntity.ok(parkingLotOfParkingBoy);
     }
 
+    @PutMapping(path = "/{id}/orders/{carNumber}")
+    public ResponseEntity<ParkingOrder> fetchCar(@PathVariable Long id, @PathVariable String carNumber){
+        Optional<ParkingBoy> parkingBoy = parkingBoyRepository.findById(id);
+        Long orderId = null;
+        if(!parkingBoy.isPresent()){
+            return ResponseEntity.badRequest().build();
+        }
+        ParkingOrder selectedOrder = null;
+        for (ParkingOrder parkingOrder: parkingBoy.get().getParkingOrders()){
+            if(parkingOrder.getCarNumber().equals(carNumber)){
+                orderId = parkingOrder.getId();
+            }
+        }
+        if(orderId==null){
+            return ResponseEntity.badRequest().build();
+        }
+        Optional<ParkingOrder> parkingOrder = parkingOrderRepository.findById(orderId);
+        if(!parkingOrder.isPresent()){
+            return ResponseEntity.badRequest().build();
+        }
+        parkingOrder.get().setStatus("Fetched");
+        parkingOrderRepository.saveAndFlush(parkingOrder.get());
+        return ResponseEntity.ok().body(parkingOrder.get());
+    }
+
 
 
 

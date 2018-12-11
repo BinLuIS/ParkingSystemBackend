@@ -72,9 +72,9 @@ public class UserController {
 //    }
 
     @GetMapping(path = "/users")
-    public ResponseEntity<User[]> getAllUsers() {
+    public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
-        return ResponseEntity.ok((User[])users.toArray());
+        return ResponseEntity.ok(users);
     }
 
 }

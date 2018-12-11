@@ -6,5 +6,7 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ParkingBoyRepository extends JpaRepository<ParkingBoy, Long> {
     ParkingBoy findOneById(Long id);
+
+    ParkingBoy findOneByName(String name);
 }
 

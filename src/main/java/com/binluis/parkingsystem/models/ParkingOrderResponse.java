@@ -1,5 +1,7 @@
 package com.binluis.parkingsystem.models;
 
+import com.binluis.parkingsystem.domain.ParkingBoy;
+import com.binluis.parkingsystem.domain.ParkingLot;
 import com.binluis.parkingsystem.domain.ParkingOrder;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -10,6 +12,7 @@ public class ParkingOrderResponse {
     private String carNumber;
     private String requestType;
     private String status;
+    private ParkingLot parkingLot;
 
     public Long getId() {
         return id;
@@ -43,7 +46,15 @@ public class ParkingOrderResponse {
         this.status = status;
     }
 
-    public static ParkingOrderResponse create(Long id,String carNumber, String requestType,String status) {
+    public ParkingLot getParkingLot() {
+        return parkingLot;
+    }
+
+    public void setParkingLot(ParkingLot parkingLot) {
+        this.parkingLot = parkingLot;
+    }
+
+    public static ParkingOrderResponse create(Long id, String carNumber, String requestType, String status,ParkingLot parkingLot) {
         Objects.requireNonNull(id);
 
         final ParkingOrderResponse response = new ParkingOrderResponse();
@@ -51,11 +62,12 @@ public class ParkingOrderResponse {
         response.setCarNumber(carNumber);
         response.setRequestType(requestType);
         response.setStatus(status);
+        response.setParkingLot(parkingLot);
         return response;
     }
 
     public static ParkingOrderResponse create(ParkingOrder entity) {
-        return create(entity.getId(),entity.getCarNumber(),entity.getRequestType(),entity.getStatus());
+        return create(entity.getId(),entity.getCarNumber(),entity.getRequestType(),entity.getStatus(),entity.getParkingLot());
     }
 
     @JsonIgnore

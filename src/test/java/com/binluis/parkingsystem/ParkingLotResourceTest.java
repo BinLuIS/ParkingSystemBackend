@@ -111,6 +111,7 @@ public class ParkingLotResourceTest {
         assertEquals("ABC1", parkingOrderResponses[0].getCarNumber());
         assertEquals("parking",parkingOrderResponses[0].getRequestType());
         assertEquals("pendingParking",parkingOrderResponses[0].getStatus());
+        assertEquals(parkingLot.getId(),parkingOrderResponses[0].getParkingLot().getId());
     }
 
     @Test

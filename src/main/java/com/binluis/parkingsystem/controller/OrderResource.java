@@ -90,8 +90,11 @@ public class OrderResource {
 
             return ResponseEntity.badRequest().body("Invaild Car Number");
         }
-        if(parkingOrderRepository.findOneByCarNumber(request.getCarNumber())!=null){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body("Invaild Car Number");
+        ParkingOrder existingOrder=parkingOrderRepository.findOneByCarNumber(request.getCarNumber());
+        if(existingOrder!=null ){
+            if(!existingOrder.getStatus().equals("completed")) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body("Invaild Car Number");
+            }
         }
         try{
             ParkingOrder order = new ParkingOrder(request.getCarNumber(), "parking", "pendingParking");

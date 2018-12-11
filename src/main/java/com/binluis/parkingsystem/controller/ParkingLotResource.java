@@ -40,7 +40,7 @@ public class ParkingLotResource {
     @PostMapping
     public ResponseEntity createParkingLot(@RequestBody ParkingLot parkingLot) {
         final ParkingLotResponse parkingLotResponse = ParkingLotResponse.create(parkingLotRepository.save(parkingLot));
-        parkingLotResponse.setavailableCapacity(parkingLot.getCapacity()-parkingOrderRepository.findAllByStatus("parked").stream().filter(each->(each.getParkingLot().getId()==parkingLot.getId())).toArray().length);
+        parkingLotResponse.setavailableCapacity(parkingLot.getCapacity());
         return ResponseEntity.created(URI.create("/parkinglots")).body(parkingLotResponse);
     }
 

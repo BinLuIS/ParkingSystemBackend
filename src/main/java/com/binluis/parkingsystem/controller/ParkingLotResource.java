@@ -28,7 +28,10 @@ public class ParkingLotResource {
     @GetMapping
     public ResponseEntity<ParkingLotResponse[]> getAllParkingLots() {
         final ParkingLotResponse[] parkingLotResponses= parkingLotRepository.findAll().stream()
-                .map(ParkingLotResponse::create)
+                .map(ParkingLotResponse::create).map(lot->{
+                    lot.setavailableCapacity(lot.getCapacity()-parkingOrderRepository.findAllByStatus("parked").stream().filter(each->(each.getParkingLot().getId()==lot.getId())).toArray().length);
+                    return lot;
+                })
                 .toArray(ParkingLotResponse[]::new);
         return ResponseEntity.ok(parkingLotResponses);
     }

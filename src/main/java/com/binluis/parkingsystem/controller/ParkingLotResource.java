@@ -36,6 +36,7 @@ public class ParkingLotResource {
     @PostMapping
     public ResponseEntity createParkingLot(@RequestBody ParkingLot parkingLot) {
         final ParkingLotResponse parkingLotResponse = ParkingLotResponse.create(parkingLotRepository.save(parkingLot));
+        parkingLotResponse.setavailableCapacity(parkingLot.getCapacity()-parkingOrderRepository.findAllByStatus("parked").stream().filter(each->(each.getParkingLot().getId()==parkingLot.getId())).toArray().length);
         return ResponseEntity.created(URI.create("/parkinglots")).body(parkingLotResponse);
     }
 
@@ -71,7 +72,7 @@ public class ParkingLotResource {
         parkingLot.getParkingOrders().add(parkingOrder);
         parkingOrder.setStatus("parked");
         parkingOrderRepository.saveAndFlush(parkingOrder);
-        int availableCapacity = parkingLot.getCapacity()-parkingLot.getParkingOrders().size();
+        int availableCapacity = parkingLot.getCapacity()-parkingLot.getParkingOrders().stream().filter(each->each.getStatus()=="parked").toArray().length;
         ParkingLotResponse parkingLotResponse = ParkingLotResponse.create(parkingLot.getId(), parkingLot.getName(), parkingLot.getCapacity(), availableCapacity);
         return ResponseEntity.created(URI.create("parkinglots/"+parkingLot.getId()+"/orders")).body(parkingLotResponse);
     }

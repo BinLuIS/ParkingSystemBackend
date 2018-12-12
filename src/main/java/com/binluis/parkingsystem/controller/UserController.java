@@ -31,7 +31,7 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @GetMapping("/user/me")
-    @PreAuthorize("hasRole('USER')")
+    @PreAuthorize("hasRole('PARKINGCLERK') or hasRole('USER') ")
     public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
         UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
         return userSummary;

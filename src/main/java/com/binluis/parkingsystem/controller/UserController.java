@@ -32,9 +32,11 @@ public class UserController {
 
     @GetMapping("/user/me")
     @PreAuthorize("hasRole('PARKINGCLERK')")
-    public UserSummary getCurrentUser(@CurrentUser UserPrincipal currentUser) {
+    public User getCurrentUser(@CurrentUser UserPrincipal currentUser) {
+        System.out.println("?????"+currentUser.getId());
         UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
-        return userSummary;
+        Optional<User> user=userRepository.findById(currentUser.getId());
+        return user.get();
     }
 
     @GetMapping("/user/checkUsernameAvailability")

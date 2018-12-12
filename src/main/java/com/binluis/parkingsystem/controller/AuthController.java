@@ -87,12 +87,9 @@ public class AuthController {
 
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
-//        Role userRole = roleRepository.findByName(RoleName.ROLE_USER)
-//                .orElseThrow(() -> new AppException("User Role not set."));
-
         RoleName roleName=null;
         if(signUpRequest.getRole().equals("PARKINGCLERK")){
-            roleName=RoleName.PARKINGCLERK;
+            roleName=RoleName.ROLE_PARKINGCLERK;
         }
 
         Role userRole=roleRepository.findByName(roleName)
@@ -103,12 +100,14 @@ public class AuthController {
 
         User result = null;
 
-        if(roleName.equals(RoleName.PARKINGCLERK)){
+        if(roleName.equals(RoleName.ROLE_PARKINGCLERK)){
             ParkingBoy parkingBoy=new ParkingBoy(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPhoneNumber(), "available");
             parkingBoyRepository.saveAndFlush(parkingBoy);
             user.setIdInRole(parkingBoy.getId());
             result = userRepository.saveAndFlush(user);
         }
+
+
 
         if(result==null){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

@@ -1,5 +1,6 @@
 package com.binluis.parkingsystem.models;
 
+import com.binluis.parkingsystem.domain.ParkingBoy;
 import com.binluis.parkingsystem.domain.ParkingLot;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -10,8 +11,15 @@ public class ParkingLotResponse {
     private String name;
     private int capacity;
     private int availableCapacity;
+    private ParkingBoy parkingBoy;
 
+    public ParkingBoy getParkingBoy() {
+        return parkingBoy;
+    }
 
+    public void setParkingBoy(ParkingBoy parkingBoy) {
+        this.parkingBoy = parkingBoy;
+    }
 
 
     public Long getId() {
@@ -67,8 +75,19 @@ public class ParkingLotResponse {
         return response;
     }
 
+    public static ParkingLotResponse create(Long id,String name, int capacity,ParkingBoy parkingBoy) {
+        Objects.requireNonNull(id);
+
+        final ParkingLotResponse response = new ParkingLotResponse();
+        response.setId(id);
+        response.setName(name);
+        response.setCapacity(capacity);
+        response.setParkingBoy(parkingBoy);
+        return response;
+    }
+
     public static ParkingLotResponse create(ParkingLot entity) {
-        return create(entity.getId(),entity.getName(),entity.getCapacity());
+        return create(entity.getId(),entity.getName(),entity.getCapacity(),entity.getParkingBoy());
     }
 
     @JsonIgnore

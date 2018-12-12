@@ -84,4 +84,5 @@ public class ParkingLot {
         }
         return capacity - parkingOrders.size()+fetchedOrder;
     }
+
 }

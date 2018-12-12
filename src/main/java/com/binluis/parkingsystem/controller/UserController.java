@@ -49,15 +49,15 @@ public class UserController {
         return new UserIdentityAvailability(isAvailable);
     }
 
-    @GetMapping(path = "/user/{id}/parkingclerks")
-    public ResponseEntity<ParkingBoy> getAllParkingBoys(@PathVariable Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(!user.isPresent()){
-            return ResponseEntity.badRequest().build();
-        }
-        ParkingBoy parkingBoy=parkingBoyRepository.findOneByName(user.get().getName());
-        return ResponseEntity.ok(parkingBoy);
-    }
+//    @GetMapping(path = "/user/{id}/parkingclerks")
+//    public ResponseEntity<ParkingBoy> getAllParkingBoys(@PathVariable Long id) {
+//        Optional<User> user = userRepository.findById(id);
+//        if(!user.isPresent()){
+//            return ResponseEntity.badRequest().build();
+//        }
+//        ParkingBoy parkingBoy=parkingBoyRepository.findOneByName(user.get().getName());
+//        return ResponseEntity.ok(parkingBoy);
+//    }
 //    @GetMapping("/users/{username}")
 //    public UserProfile getUserProfile(@PathVariable(value = "username") String username) {
 //        User user = userRepository.findByUsername(username)
@@ -77,4 +77,12 @@ public class UserController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping(path = "/users/{id}")
+    public ResponseEntity<User> getUser(@PathVariable Long id) {
+        Optional<User> users = userRepository.findById(id);
+        if(!users.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(users.get());
+    }
 }

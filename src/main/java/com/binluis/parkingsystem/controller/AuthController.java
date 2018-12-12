@@ -1,7 +1,6 @@
 package com.binluis.parkingsystem.controller;
 
-import com.binluis.parkingsystem.domain.ParkingBoy;
-import com.binluis.parkingsystem.domain.ParkingBoyRepository;
+import com.binluis.parkingsystem.domain.*;
 import com.binluis.parkingsystem.exception.AppException;
 import com.binluis.parkingsystem.models.Role;
 import com.binluis.parkingsystem.models.RoleName;
@@ -10,8 +9,6 @@ import com.binluis.parkingsystem.payload.ApiResponse;
 import com.binluis.parkingsystem.payload.JwtAuthenticationResponse;
 import com.binluis.parkingsystem.payload.LoginRequest;
 import com.binluis.parkingsystem.payload.SignUpRequest;
-import com.binluis.parkingsystem.domain.RoleRepository;
-import com.binluis.parkingsystem.domain.UserRepository;
 import com.binluis.parkingsystem.security.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -53,6 +50,9 @@ public class AuthController {
     @Autowired
     ParkingBoyRepository parkingBoyRepository;
 
+    @Autowired
+    ManagerRepository managerRepository;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -91,6 +91,9 @@ public class AuthController {
         if(signUpRequest.getRole().equals("PARKINGCLERK")){
             roleName=RoleName.ROLE_PARKINGCLERK;
         }
+        if(signUpRequest.getRole().equals("MANAGER")){
+            roleName=RoleName.ROLE_MANAGER;
+        }
 
         Role userRole=roleRepository.findByName(roleName)
                 .orElseThrow(() -> new AppException("User Role not set."));
@@ -107,8 +110,13 @@ public class AuthController {
             result = userRepository.saveAndFlush(user);
         }
 
-
-
+        if(roleName.equals(RoleName.ROLE_MANAGER)){
+            Manager manager=new Manager(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPhoneNumber());
+            managerRepository.saveAndFlush(manager);
+            user.setIdInRole(manager.getId());
+            result = userRepository.saveAndFlush(user);
+        }
+        
         if(result==null){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }

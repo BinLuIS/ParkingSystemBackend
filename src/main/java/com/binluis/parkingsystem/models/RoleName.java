@@ -3,5 +3,6 @@ package com.binluis.parkingsystem.models;
 public enum  RoleName {
     ROLE_USER,
     ROLE_ADMIN,
-    ROLE_PARKINGCLERK
+    ROLE_PARKINGCLERK,
+    ROLE_MANAGER
 }

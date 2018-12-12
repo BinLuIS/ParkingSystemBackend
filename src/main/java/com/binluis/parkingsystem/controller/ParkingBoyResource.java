@@ -39,6 +39,14 @@ public class ParkingBoyResource {
         return ResponseEntity.ok(parkingBoys);
     }
 
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<ParkingBoyResponse> getParkingBoy(@PathVariable Long id) {
+        Optional<ParkingBoy> parkingBoy = parkingBoyRepository.findById(id);
+        if(!parkingBoy.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(ParkingBoyResponse.create(parkingBoy.get()));
+    }
 
     @PostMapping
     public ResponseEntity createParkingBoy(@RequestBody ParkingBoy parkingBoy) {

@@ -14,8 +14,12 @@ script:
 deploy:
   provider: heroku
   api_key:
-    secure: 8488c898-cdf7-4ada-8f56-9a58631293e7
-  app: parkingsystem
+    #secure: 8488c898-cdf7-4ada-8f56-9a58631293e7
+    master: 8488c898-cdf7-4ada-8f56-9a58631293e7
+    production: 46665c81-5c8e-4616-a391-a72002ed349f
+  app:
+    master: parkingsystem
+    production: binluis-parking-system
   on:
     repo: BinLuIS/ParkingSystem
 notifications:

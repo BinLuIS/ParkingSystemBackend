@@ -71,20 +71,16 @@ public class AuthController {
 
     @PostMapping("/signup")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignUpRequest signUpRequest) {
-        System.out.println("in!!!!!!!");
         if(userRepository.existsByUsername(signUpRequest.getUsername())) {
-            System.out.println("!!!!Username is already taken!");
             return new ResponseEntity(new ApiResponse(false, "Username is already taken!"),
                     HttpStatus.BAD_REQUEST);
         }
 
         if(userRepository.existsByEmail(signUpRequest.getEmail())) {
-            System.out.println("Email Address already in use!");
             return new ResponseEntity(new ApiResponse(false, "Email Address already in use!"),
                     HttpStatus.BAD_REQUEST);
         }
 
-        System.out.println("!!!!beforeUser");
         // Creating user's account
         User user = new User(signUpRequest.getName(), signUpRequest.getUsername(),
                 signUpRequest.getEmail(), signUpRequest.getPassword());
@@ -101,20 +97,18 @@ public class AuthController {
 
         Role userRole=roleRepository.findByName(roleName)
                 .orElseThrow(() -> new AppException("User Role not set."));
-        System.out.println("!!!!role"+userRole);
 
         user.setRoles(Collections.singleton(userRole));
+        user.setPhoneNumber(signUpRequest.getPhoneNumber());
 
         User result = null;
 
         if(roleName.equals(RoleName.PARKINGCLERK)){
-            System.out.println("roleName!!!!!"+roleName);
             ParkingBoy parkingBoy=new ParkingBoy(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPhoneNumber(), "available");
             parkingBoyRepository.saveAndFlush(parkingBoy);
             user.setIdInRole(parkingBoy.getId());
             result = userRepository.saveAndFlush(user);
         }
-        System.out.println("result!!!!"+result.getName());
 
         if(result==null){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

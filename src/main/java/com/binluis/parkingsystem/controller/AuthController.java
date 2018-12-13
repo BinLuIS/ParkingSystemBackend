@@ -108,8 +108,9 @@ public class AuthController {
             user.setIdInRole(parkingBoy.getId());
             result = userRepository.saveAndFlush(user);
             if(result==null){
-                parkingBoyRepository.saveAndFlush(parkingBoy);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }else{
+                parkingBoyRepository.saveAndFlush(parkingBoy);
             }
         }
 
@@ -118,8 +119,9 @@ public class AuthController {
             user.setIdInRole(manager.getId());
             result = userRepository.saveAndFlush(user);
             if(result==null){
-                managerRepository.saveAndFlush(manager);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }else{
+                managerRepository.saveAndFlush(manager);
             }
         }
         

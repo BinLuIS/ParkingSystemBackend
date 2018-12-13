@@ -1,5 +1,6 @@
 package com.binluis.parkingsystem.controller;
 
+import com.binluis.parkingsystem.Service.OrderService;
 import com.binluis.parkingsystem.domain.*;
 import com.binluis.parkingsystem.models.CreateParkingOrderRequest;
 import com.binluis.parkingsystem.models.ParkingBoyParkingOrderAssociationRequest;
@@ -32,15 +33,18 @@ public class OrderResource {
     @Autowired
     ParkingLotRepository parkingLotRepository;
 
+    @Autowired
+    OrderService orderService;
+
     @GetMapping(produces = {"application/json"})
     public ResponseEntity<List<ParkingOrder>> getAllOrders(@RequestParam(required = false) String status,@RequestParam(required = false) String carNumber) {
         List<ParkingOrder> allOrders=null;
         if(status!=null){
-           allOrders = parkingOrderRepository.findAllByStatus(status);
+           allOrders = orderService.getAllOrderByStatus(status);
         }else if(carNumber!=null){
-            allOrders=parkingOrderRepository.findAllByCarNumber(carNumber);
+            allOrders=orderService.getOrdersByCarNumber(carNumber);
         }else {
-            allOrders = parkingOrderRepository.findAll();
+            allOrders = orderService.getAllOrders();
         }
         return ResponseEntity.ok(allOrders);
     }
@@ -56,44 +60,37 @@ public class OrderResource {
     @PatchMapping(path = "/{id}",produces = {"application/json"})
     public ResponseEntity makeCarFetchingRequest(@PathVariable Long id,@RequestBody CreateParkingOrderRequest request){
         Optional<ParkingOrder> parkingOrder=parkingOrderRepository.findById(id);
-        System.out.println(parkingOrder.get().getCarNumber()+"!!!!!");
         if(!parkingOrder.isPresent()){
             return ResponseEntity.notFound().build();
         }
         if(request.getStatus().equals("pendingFetching")) {
-            System.out.println("in if 1");
-            if (!parkingOrder.get().getStatus().equals("parked")) {
-                return ResponseEntity.badRequest().build();
+            boolean requestfetch=orderService.requestFetch(parkingOrder.get());
+            if(!requestfetch) {
+                ResponseEntity.badRequest().build();
             }
-            parkingOrder.get().setRequestType("fetching");
-            parkingOrder.get().setStatus("pendingFetching");
-            parkingOrderRepository.saveAndFlush(parkingOrder.get());
         }
         if(request.getStatus().equals("completed")){
-            if(!parkingOrder.get().getStatus().equals("pendingFetching")) {
+            boolean fetched=orderService.fetchCar(parkingOrder.get());
+            if(!fetched){
                 return ResponseEntity.badRequest().build();
             }
-            parkingOrder.get().setStatus("completed");
-            parkingOrderRepository.saveAndFlush(parkingOrder.get());
         }
         return ResponseEntity.created(URI.create("/orders/"+id)).body(parkingOrder);
     }
 
     @PostMapping(produces = {"application/json"})
     public ResponseEntity createOrder(@RequestBody CreateParkingOrderRequest request){
-        if(!request.isVaild()){
 
+        boolean validRequest=orderService.checkParkRequestValid(request);
+        if(!validRequest){
             return ResponseEntity.badRequest().body("Invaild Car Number");
         }
-        ParkingOrder existingOrder=parkingOrderRepository.findOneByCarNumber(request.getCarNumber());
-        if(existingOrder!=null ){
-            if(!existingOrder.getStatus().equals("completed")) {
-                return ResponseEntity.status(HttpStatus.CONFLICT).body("Invaild Car Number");
-            }
+        boolean noProcessingOrder=orderService.checkNoProcessingOrderOfCar(request.getCarNumber());
+        if(!noProcessingOrder){
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Invaild Car Number");
         }
         try{
-            ParkingOrder order = new ParkingOrder(request.getCarNumber(), "parking", "pendingParking");
-            parkingOrderRepository.saveAndFlush(order);
+            ParkingOrder order=orderService.createParkingOrder(request.getCarNumber());
             return ResponseEntity.created(URI.create("/orders/"+order.getId())).body(order);
         }
         catch (DataIntegrityViolationException e){

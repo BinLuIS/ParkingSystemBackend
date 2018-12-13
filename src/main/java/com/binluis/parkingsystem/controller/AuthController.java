@@ -105,7 +105,7 @@ public class AuthController {
         User result = null;
 
         if(roleName.equals(RoleName.ROLE_PARKINGCLERK)){
-            ParkingBoy parkingBoy=new ParkingBoy(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPhoneNumber(), "available");
+            ParkingBoy parkingBoy=new ParkingBoy(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPhoneNumber(), "active");
             parkingBoyRepository.saveAndFlush(parkingBoy);
             user.setIdInRole(parkingBoy.getId());
             try {

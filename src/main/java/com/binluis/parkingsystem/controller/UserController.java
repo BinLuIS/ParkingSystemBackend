@@ -104,18 +104,30 @@ public class UserController {
         return ResponseEntity.ok(users.get());
     }
 
-    @PutMapping(path = "/users/{id}")
+    @PatchMapping(path = "/users/{id}")
     public ResponseEntity modifyUser(@PathVariable Long id, @RequestBody ModifyUserRequest request){
         Optional<User> user = userRepository.findById(id);
         if(!user.isPresent()){
             return ResponseEntity.notFound().build();
         }
-        user.get().setUsername(request.getUsername());
-        user.get().setName(request.getName());
-        user.get().setPhoneNumber(request.getPhoneNumber());
-        user.get().setEmail(request.getEmail());
-        user.get().setStatus(request.getStatus());
-        user.get().setPassword(request.getPassword());
+        if(request.getUsername()!=null) {
+            user.get().setUsername(request.getUsername());
+        }
+        if(request.getName()!=null) {
+            user.get().setName(request.getName());
+        }
+        if(request.getPhoneNumber()!=null) {
+            user.get().setPhoneNumber(request.getPhoneNumber());
+        }
+        if(request.getEmail()!=null) {
+            user.get().setEmail(request.getEmail());
+        }
+        if(request.getStatus()!=null) {
+            user.get().setStatus(request.getStatus());
+        }
+        if(request.getPassword()!=null) {
+            user.get().setPassword(request.getPassword());
+        }
 
         userRepository.saveAndFlush(user.get());
         return ResponseEntity.created(URI.create("/api/users/"+id)).body(user);

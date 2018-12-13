@@ -91,12 +91,14 @@ public class UserController {
 //    }
 
     @GetMapping(path = "/users")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping(path = "/users/{id}")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         Optional<User> users = userRepository.findById(id);
         if(!users.isPresent()){
@@ -106,6 +108,7 @@ public class UserController {
     }
 
     @PatchMapping(path = "/users/{id}")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity modifyUser(@PathVariable Long id, @RequestBody ModifyUserRequest request){
         Optional<User> user = userRepository.findById(id);
         if(!user.isPresent()){

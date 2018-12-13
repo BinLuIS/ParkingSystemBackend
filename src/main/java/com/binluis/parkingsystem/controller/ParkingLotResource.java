@@ -6,6 +6,7 @@ import com.binluis.parkingsystem.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,6 +27,7 @@ public class ParkingLotResource {
     ParkingOrderRepository parkingOrderRepository;
 
     @GetMapping
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<ParkingLotResponse[]> getAllParkingLots() {
         final ParkingLotResponse[] parkingLotResponses= parkingLotRepository.findAll().stream()
                 .map(ParkingLotResponse::create).map(lot->{
@@ -38,6 +40,7 @@ public class ParkingLotResource {
 
 
     @PostMapping
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity createParkingLot(@RequestBody ParkingLot parkingLot) {
         final ParkingLotResponse parkingLotResponse = ParkingLotResponse.create(parkingLotRepository.save(parkingLot));
         parkingLotResponse.setavailableCapacity(parkingLot.getCapacity());
@@ -46,6 +49,7 @@ public class ParkingLotResource {
 
 
     @GetMapping(path = "/{id}/orders")
+    @PreAuthorize("hasRole('PARKINGCLERK')")
     public ResponseEntity<ParkingOrderResponse[]> getAllAssociateParkingOrders(@PathVariable Long id){
         ParkingLot parkingLot = parkingLotRepository.findOneById(id);
         return ResponseEntity.ok((ParkingOrderResponse[])parkingLot.getParkingOrders().stream()
@@ -54,6 +58,7 @@ public class ParkingLotResource {
     }
 
     @PostMapping(path = "/{id}/orders")
+    @PreAuthorize("hasRole('PARKINGCLERK')")
     public ResponseEntity associateParkingLotWithParkingOrder(
             @PathVariable Long id,
             @RequestBody ParkingLotParkingOrderAssociationRequest request

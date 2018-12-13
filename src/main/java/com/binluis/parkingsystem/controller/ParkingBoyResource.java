@@ -5,6 +5,7 @@ import com.binluis.parkingsystem.models.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
@@ -32,6 +33,7 @@ public class ParkingBoyResource {
     ParkingLotRepository parkingLotRepository;
 
     @GetMapping
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<ParkingBoyResponse[]> getAllParkingBoys() {
         final ParkingBoyResponse[] parkingBoys = parkingBoyRepository.findAll().stream()
                 .map(ParkingBoyResponse::create)
@@ -40,6 +42,7 @@ public class ParkingBoyResource {
     }
 
     @GetMapping(path = "/{id}")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<ParkingBoyResponse> getParkingBoy(@PathVariable Long id) {
         Optional<ParkingBoy> parkingBoy = parkingBoyRepository.findById(id);
         if(!parkingBoy.isPresent()){
@@ -49,12 +52,14 @@ public class ParkingBoyResource {
     }
 
     @PostMapping
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity createParkingBoy(@RequestBody ParkingBoy parkingBoy) {
         final ParkingBoyResponse parkingBoyResponse = ParkingBoyResponse.create(parkingBoyRepository.save(parkingBoy));
         return ResponseEntity.created(URI.create("/parkingclerks")).body(parkingBoyResponse);
     }
 
     @GetMapping(path = "/{id}/orders")
+    @PreAuthorize("hasRole('PARKINGCLERK')")
     public ResponseEntity<ParkingOrderResponse[]> getAllAssociateParkingOrders(@PathVariable Long id,@RequestParam(required = false) String[] status){
         ParkingBoy parkingBoy= parkingBoyRepository.findOneById(id);
         if(status!=null) {
@@ -76,6 +81,7 @@ public class ParkingBoyResource {
     }
 
     @PostMapping(path = "/{id}/orders")
+    @PreAuthorize("hasRole('PARKINGCLERK')")
     public ResponseEntity addParkingOrderToParkingBoy(@PathVariable Long id, @RequestBody ParkingBoyParkingOrderAssociationRequest parkingBoyParkingOrderAssociationRequest){
         Optional<ParkingBoy> parkingBoy=parkingBoyRepository.findById(id);
         if(!parkingBoy.isPresent()){
@@ -96,6 +102,7 @@ public class ParkingBoyResource {
 
 
     @PostMapping(path = "/{id}/parkinglots")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity addParkingLotToParkingBoy(@PathVariable Long id, @RequestBody ParkingBoyParkingLotAssociationRequest parkingBoyParkingLotAssociationRequest){
         Optional<ParkingBoy> parkingBoy=parkingBoyRepository.findById(id);
 
@@ -118,6 +125,7 @@ public class ParkingBoyResource {
     
 
     @GetMapping(path = "/{id}/parkinglots")
+    @PreAuthorize("hasRole('PARKINGCLERK')")
     public ResponseEntity getParkingLot(@PathVariable Long id){
         ParkingBoy parkingBoy = parkingBoyRepository.findOneById(id);
         List<ParkingLotResponse> parkingLotOfParkingBoy = parkingBoy.getParkingLots().stream().map(e -> {
@@ -129,6 +137,7 @@ public class ParkingBoyResource {
     }
 
     @PutMapping(path = "/{id}/orders/{carNumber}")
+    @PreAuthorize("hasRole('MANAGER')")
     public ResponseEntity<ParkingOrder> fetchCar(@PathVariable Long id, @PathVariable String carNumber){
         Optional<ParkingBoy> parkingBoy = parkingBoyRepository.findById(id);
         Long orderId = null;
@@ -152,9 +161,4 @@ public class ParkingBoyResource {
         parkingOrderRepository.saveAndFlush(parkingOrder.get());
         return ResponseEntity.ok().body(parkingOrder.get());
     }
-
-
-
-
-
 }

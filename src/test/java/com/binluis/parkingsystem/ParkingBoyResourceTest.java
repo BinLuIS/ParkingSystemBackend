@@ -48,7 +48,7 @@ public class ParkingBoyResourceTest {
     //When GET /parkingclerks,
     //Return 200 with a parkingBoys list [{"name": "string","email":"string","phoneNumber":"string","status":"string"}]
     @Test
-    @WithMockUser
+    @WithMockUser(username = "mgr", roles={"MANAGER"})
     public void should_get_parking_boys() throws Exception {
         final ParkingBoy boy = parkingBoyRepository.save(new ParkingBoy("boy1","boy1@email","12345678901","accept"));
         parkingBoyRepository.flush();
@@ -68,7 +68,7 @@ public class ParkingBoyResourceTest {
     //Given a parking boy {"name": "string","email":"string","phoneNumber":"string","status":"string"},
     //When POST /parkingclerks, Return 201
     @Test
-    @WithMockUser
+    @WithMockUser(username = "mgr", roles={"MANAGER"})
     public void should_create_parking_boys() throws Exception {
         // Given
         final ParkingBoy boy = new ParkingBoy("boy1","boy1@email","12345678901","accepted");
@@ -94,7 +94,7 @@ public class ParkingBoyResourceTest {
     //When POST /parkingclerks/{id}/parkingorders,
     //Then change parkingOrder status and return 201
     @Test
-    @WithMockUser
+    @WithMockUser(username = "mgr", roles={"PARKINGCLERK"})
     public void should_parkingOrder_add_to_parkingBoy() throws Exception {
         ParkingBoy parkingBoy=new ParkingBoy("boy1","boy1@email","12345678901","available");
         ParkingOrder parkingOrder=new ParkingOrder("car1","parking","pendingParking");
@@ -117,7 +117,7 @@ public class ParkingBoyResourceTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "mgr", roles={"PARKINGCLERK"})
     public void should_get_associate_parking_order_of_parking_boy() throws Exception{
         //Given
         final ParkingBoy parkingBoy=new ParkingBoy("boy1","boy1@email","12345678901","available");

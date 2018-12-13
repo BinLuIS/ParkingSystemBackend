@@ -58,7 +58,6 @@ public class ParkingLotResource {
     }
 
     @PostMapping(path = "/{id}/orders")
-    @PreAuthorize("hasRole('PARKINGCLERK')")
     public ResponseEntity associateParkingLotWithParkingOrder(
             @PathVariable Long id,
             @RequestBody ParkingLotParkingOrderAssociationRequest request

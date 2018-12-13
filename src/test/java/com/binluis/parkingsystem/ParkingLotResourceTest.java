@@ -46,7 +46,7 @@ public class ParkingLotResourceTest {
     //When GET /parkingLots,
     //Return 200 with parking lots list [{"id": Long, "name":"string", "capacity": integer}]
     @Test
-    @WithMockUser
+    @WithMockUser(username = "mgr", roles={"MANAGER"})
     public void should_get_parking_lots() throws Exception {
         final ParkingLot lot = parkingLotRepository.save(new ParkingLot("lot",10));
         parkingLotRepository.flush();
@@ -87,7 +87,7 @@ public class ParkingLotResourceTest {
     }
 
     @Test
-    @WithMockUser
+    @WithMockUser(username = "mgr", roles={"PARKINGCLERK"})
     public void should_get_associate_parking_order_of_parking_lot() throws Exception{
         //Given
         final ParkingLot parkingLot = new ParkingLot("Lot1", 10);

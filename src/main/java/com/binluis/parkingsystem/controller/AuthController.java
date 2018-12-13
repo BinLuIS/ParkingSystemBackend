@@ -105,21 +105,25 @@ public class AuthController {
 
         if(roleName.equals(RoleName.ROLE_PARKINGCLERK)){
             ParkingBoy parkingBoy=new ParkingBoy(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPhoneNumber(), "available");
-            parkingBoyRepository.saveAndFlush(parkingBoy);
             user.setIdInRole(parkingBoy.getId());
             result = userRepository.saveAndFlush(user);
+            if(result==null){
+                parkingBoyRepository.saveAndFlush(parkingBoy);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         }
 
         if(roleName.equals(RoleName.ROLE_MANAGER)){
             Manager manager=new Manager(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPhoneNumber());
-            managerRepository.saveAndFlush(manager);
             user.setIdInRole(manager.getId());
             result = userRepository.saveAndFlush(user);
+            if(result==null){
+                managerRepository.saveAndFlush(manager);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         }
         
-        if(result==null){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
+
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")

@@ -38,12 +38,7 @@ public class OrderResource {
         if(status!=null){
            allOrders = parkingOrderRepository.findAllByStatus(status);
         }else if(carNumber!=null){
-            List<ParkingOrder> orders=new ArrayList<>();
-            ParkingOrder order=parkingOrderRepository.findOneByCarNumber(carNumber);
-            if(order!=null) {
-                orders.add(order);
-            }
-            allOrders = orders;
+            allOrders=parkingOrderRepository.findAllByCarNumber(carNumber);
         }else {
             allOrders = parkingOrderRepository.findAll();
         }

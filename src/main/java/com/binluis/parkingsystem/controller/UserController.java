@@ -46,7 +46,7 @@ public class UserController {
     }
 
     @GetMapping("/user/manager")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public User getCurrentUser_manager(@CurrentUser UserPrincipal currentUser) {
         UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
         Optional<User> user=userRepository.findById(currentUser.getId());
@@ -91,14 +91,14 @@ public class UserController {
 //    }
 
     @GetMapping(path = "/users")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<List<User>> getAllUsers() {
         List<User> users = userRepository.findAll();
         return ResponseEntity.ok(users);
     }
 
     @GetMapping(path = "/users/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<User> getUser(@PathVariable Long id) {
         Optional<User> users = userRepository.findById(id);
         if(!users.isPresent()){
@@ -108,7 +108,7 @@ public class UserController {
     }
 
     @PatchMapping(path = "/users/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity modifyUser(@PathVariable Long id, @RequestBody ModifyUserRequest request){
         Optional<User> user = userRepository.findById(id);
         if(!user.isPresent()){

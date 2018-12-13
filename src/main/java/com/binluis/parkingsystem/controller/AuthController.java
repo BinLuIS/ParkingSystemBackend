@@ -53,6 +53,9 @@ public class AuthController {
     @Autowired
     ManagerRepository managerRepository;
 
+    @Autowired
+    SystemAdminRepository systemAdminRepository;
+
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
 
@@ -94,6 +97,9 @@ public class AuthController {
         if(signUpRequest.getRole().equals("MANAGER")){
             roleName=RoleName.ROLE_MANAGER;
         }
+        if(signUpRequest.getRole().equals("ADMIN")){
+            roleName=RoleName.ROLE_ADMIN;
+        }
 
         Role userRole=roleRepository.findByName(roleName)
                 .orElseThrow(() -> new AppException("User Role not set."));
@@ -132,6 +138,22 @@ public class AuthController {
                 }
             }catch (Exception e){
                 managerRepository.delete(manager);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+
+        if(roleName.equals(RoleName.ROLE_ADMIN)){
+            SystemAdmin systemAdmin=new SystemAdmin(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPhoneNumber());
+            systemAdminRepository.saveAndFlush(systemAdmin);
+            user.setIdInRole(systemAdmin.getId());
+            try {
+                result = userRepository.saveAndFlush(user);
+                if (result == null) {
+                    systemAdminRepository.delete(systemAdmin);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
+            }catch (Exception e){
+                systemAdminRepository.delete(systemAdmin);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
         }

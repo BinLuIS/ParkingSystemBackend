@@ -27,7 +27,7 @@ public class ParkingLotResource {
     ParkingOrderRepository parkingOrderRepository;
 
     @GetMapping
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<ParkingLotResponse[]> getAllParkingLots() {
         final ParkingLotResponse[] parkingLotResponses= parkingLotRepository.findAll().stream()
                 .map(ParkingLotResponse::create).map(lot->{
@@ -40,7 +40,7 @@ public class ParkingLotResource {
 
 
     @PostMapping
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity createParkingLot(@RequestBody ParkingLot parkingLot) {
         final ParkingLotResponse parkingLotResponse = ParkingLotResponse.create(parkingLotRepository.save(parkingLot));
         parkingLotResponse.setavailableCapacity(parkingLot.getCapacity());

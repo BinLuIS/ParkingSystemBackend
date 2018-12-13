@@ -33,7 +33,7 @@ public class ParkingBoyResource {
     ParkingLotRepository parkingLotRepository;
 
     @GetMapping
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<ParkingBoyResponse[]> getAllParkingBoys() {
         final ParkingBoyResponse[] parkingBoys = parkingBoyRepository.findAll().stream()
                 .map(ParkingBoyResponse::create)
@@ -42,7 +42,7 @@ public class ParkingBoyResource {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<ParkingBoyResponse> getParkingBoy(@PathVariable Long id) {
         Optional<ParkingBoy> parkingBoy = parkingBoyRepository.findById(id);
         if(!parkingBoy.isPresent()){
@@ -52,7 +52,7 @@ public class ParkingBoyResource {
     }
 
     @PostMapping
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity createParkingBoy(@RequestBody ParkingBoy parkingBoy) {
         final ParkingBoyResponse parkingBoyResponse = ParkingBoyResponse.create(parkingBoyRepository.save(parkingBoy));
         return ResponseEntity.created(URI.create("/parkingclerks")).body(parkingBoyResponse);
@@ -102,7 +102,7 @@ public class ParkingBoyResource {
 
 
     @PostMapping(path = "/{id}/parkinglots")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity addParkingLotToParkingBoy(@PathVariable Long id, @RequestBody ParkingBoyParkingLotAssociationRequest parkingBoyParkingLotAssociationRequest){
         Optional<ParkingBoy> parkingBoy=parkingBoyRepository.findById(id);
 
@@ -137,7 +137,7 @@ public class ParkingBoyResource {
     }
 
     @PutMapping(path = "/{id}/orders/{carNumber}")
-    @PreAuthorize("hasRole('MANAGER')")
+    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<ParkingOrder> fetchCar(@PathVariable Long id, @PathVariable String carNumber){
         Optional<ParkingBoy> parkingBoy = parkingBoyRepository.findById(id);
         Long orderId = null;

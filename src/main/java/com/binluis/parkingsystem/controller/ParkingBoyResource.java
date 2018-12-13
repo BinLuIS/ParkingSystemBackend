@@ -42,7 +42,6 @@ public class ParkingBoyResource {
     }
 
     @GetMapping(path = "/{id}")
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity<ParkingBoyResponse> getParkingBoy(@PathVariable Long id) {
         Optional<ParkingBoy> parkingBoy = parkingBoyRepository.findById(id);
         if(!parkingBoy.isPresent()){

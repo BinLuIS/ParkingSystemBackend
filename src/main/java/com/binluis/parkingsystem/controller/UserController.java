@@ -3,6 +3,7 @@ package com.binluis.parkingsystem.controller;
 import com.binluis.parkingsystem.domain.ParkingBoy;
 import com.binluis.parkingsystem.domain.ParkingBoyRepository;
 import com.binluis.parkingsystem.exception.ResourceNotFoundException;
+import com.binluis.parkingsystem.models.ModifyUserRequest;
 import com.binluis.parkingsystem.models.ParkingBoyResponse;
 import com.binluis.parkingsystem.models.User;
 import com.binluis.parkingsystem.payload.*;
@@ -16,6 +17,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.net.URI;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,6 +38,9 @@ public class UserController {
         System.out.println("?????"+currentUser.getId());
         UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
         Optional<User> user=userRepository.findById(currentUser.getId());
+        if(user.get().getStatus().equals("freeze")){
+            return null;
+        }
         return user.get();
     }
 
@@ -86,5 +91,23 @@ public class UserController {
             return ResponseEntity.notFound().build();
         }
         return ResponseEntity.ok(users.get());
+    }
+
+    @PutMapping(path = "/users/{id}")
+    public ResponseEntity modifyUser(@PathVariable Long id, @RequestBody ModifyUserRequest request){
+        Optional<User> user = userRepository.findById(id);
+        if(!user.isPresent()){
+            return ResponseEntity.notFound().build();
+        }
+        user.get().setUsername(request.getUsername());
+        user.get().setName(request.getName());
+        user.get().setPhoneNumber(request.getPhoneNumber());
+        user.get().setEmail(request.getEmail());
+        user.get().setStatus(request.getStatus());
+        user.get().setPassword(request.getPassword());
+
+        userRepository.saveAndFlush(user.get());
+        return ResponseEntity.created(URI.create("/api/users/"+id)).body(user);
+
     }
 }

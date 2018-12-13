@@ -100,6 +100,7 @@ public class AuthController {
 
         user.setRoles(Collections.singleton(userRole));
         user.setPhoneNumber(signUpRequest.getPhoneNumber());
+        user.setStatus("active");
 
         User result = null;
 
@@ -108,6 +109,10 @@ public class AuthController {
             parkingBoyRepository.saveAndFlush(parkingBoy);
             user.setIdInRole(parkingBoy.getId());
             result = userRepository.saveAndFlush(user);
+            if(result==null){
+                parkingBoyRepository.delete(parkingBoy);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         }
 
         if(roleName.equals(RoleName.ROLE_MANAGER)){
@@ -115,12 +120,12 @@ public class AuthController {
             managerRepository.saveAndFlush(manager);
             user.setIdInRole(manager.getId());
             result = userRepository.saveAndFlush(user);
+            if(result==null){
+                managerRepository.delete(manager);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
         }
 
-        if(result==null){
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-        }
-        
 
 
         URI location = ServletUriComponentsBuilder

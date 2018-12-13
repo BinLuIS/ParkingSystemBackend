@@ -52,6 +52,8 @@ public class User extends DateAudit {
 
     private Long idInRole;
 
+    private String status;
+
     public User() {
 
     }
@@ -125,5 +127,13 @@ public class User extends DateAudit {
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 }

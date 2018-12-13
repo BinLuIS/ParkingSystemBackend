@@ -80,7 +80,6 @@ public class ParkingBoyResource {
     }
 
     @PostMapping(path = "/{id}/orders")
-    @PreAuthorize("hasRole('PARKINGCLERK')")
     public ResponseEntity addParkingOrderToParkingBoy(@PathVariable Long id, @RequestBody ParkingBoyParkingOrderAssociationRequest parkingBoyParkingOrderAssociationRequest){
         Optional<ParkingBoy> parkingBoy=parkingBoyRepository.findById(id);
         if(!parkingBoy.isPresent()){

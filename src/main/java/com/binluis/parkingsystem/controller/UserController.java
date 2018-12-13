@@ -1,13 +1,12 @@
 package com.binluis.parkingsystem.controller;
 
-import com.binluis.parkingsystem.domain.ParkingBoy;
-import com.binluis.parkingsystem.domain.ParkingBoyRepository;
+import com.binluis.parkingsystem.domain.*;
 import com.binluis.parkingsystem.exception.ResourceNotFoundException;
 import com.binluis.parkingsystem.models.ModifyUserRequest;
 import com.binluis.parkingsystem.models.ParkingBoyResponse;
+import com.binluis.parkingsystem.models.RoleName;
 import com.binluis.parkingsystem.models.User;
 import com.binluis.parkingsystem.payload.*;
-import com.binluis.parkingsystem.domain.UserRepository;
 import com.binluis.parkingsystem.security.UserPrincipal;
 import com.binluis.parkingsystem.security.CurrentUser;
 import org.slf4j.Logger;
@@ -29,6 +28,8 @@ public class UserController {
     private UserRepository userRepository;
     @Autowired
     private ParkingBoyRepository parkingBoyRepository;
+    @Autowired
+    private ManagerRepository managerRepository;
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
@@ -110,6 +111,44 @@ public class UserController {
         if(!user.isPresent()){
             return ResponseEntity.notFound().build();
         }
+
+        user.get().getRoles().forEach(role->{
+                if(role.getName().equals(RoleName.ROLE_MANAGER)){
+                    Manager manager=managerRepository.findOneById(user.get().getIdInRole());
+                    if(manager!=null) {
+                        if (request.getName() != null) {
+                            manager.setName(request.getName());
+                        }
+                        if (request.getPhoneNumber() != null) {
+                            manager.setPhoneNumber(request.getPhoneNumber());
+                        }
+                        if (request.getEmail() != null) {
+                            manager.setEmail(request.getEmail());
+                        }
+                        managerRepository.saveAndFlush(manager);
+                    }
+                }else if(role.getName().equals(RoleName.ROLE_PARKINGCLERK)){
+                    Optional<ParkingBoy> parkingBoy=parkingBoyRepository.findById(user.get().getIdInRole());
+                    if(parkingBoy.isPresent()) {
+                        if (request.getName() != null) {
+                            parkingBoy.get().setName(request.getName());
+                        }
+                        if (request.getPhoneNumber() != null) {
+                            parkingBoy.get().setPhoneNumber(request.getPhoneNumber());
+                        }
+                        if (request.getEmail() != null) {
+                            parkingBoy.get().setEmail(request.getEmail());
+                        }
+                        if (request.getStatus() != null) {
+                            parkingBoy.get().setStatus(request.getStatus());
+                        }
+                        parkingBoyRepository.saveAndFlush(parkingBoy.get());
+                    }
+                }
+
+
+        });
+
         if(request.getUsername()!=null) {
             user.get().setUsername(request.getUsername());
         }

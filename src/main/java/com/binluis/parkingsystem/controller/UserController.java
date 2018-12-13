@@ -44,6 +44,17 @@ public class UserController {
         return user.get();
     }
 
+    @GetMapping("/user/manager")
+    @PreAuthorize("hasRole('MANAGER')")
+    public User getCurrentUser_manager(@CurrentUser UserPrincipal currentUser) {
+        UserSummary userSummary = new UserSummary(currentUser.getId(), currentUser.getUsername(), currentUser.getName());
+        Optional<User> user=userRepository.findById(currentUser.getId());
+        if(user.get().getStatus().equals("freeze")){
+            return null;
+        }
+        return user.get();
+    }
+
     @GetMapping("/user/checkUsernameAvailability")
     public UserIdentityAvailability checkUsernameAvailability(@RequestParam(value = "username") String username) {
         Boolean isAvailable = !userRepository.existsByUsername(username);

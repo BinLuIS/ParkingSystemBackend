@@ -58,7 +58,7 @@ public class OrderResource {
         Optional<ParkingOrder> parkingOrder=parkingOrderRepository.findById(id);
         System.out.println(parkingOrder.get().getCarNumber()+"!!!!!");
         if(!parkingOrder.isPresent()){
-            return ResponseEntity.badRequest().build();
+            return ResponseEntity.notFound().build();
         }
         if(request.getStatus().equals("pendingFetching")) {
             System.out.println("in if 1");

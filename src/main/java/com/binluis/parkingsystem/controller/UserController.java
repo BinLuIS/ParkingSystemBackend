@@ -111,7 +111,6 @@ public class UserController {
     }
 
     @PatchMapping(path = "/users/{id}")
-    @PreAuthorize("hasRole('MANAGER') or hasRole('ADMIN')")
     public ResponseEntity modifyUser(@PathVariable Long id, @RequestBody ModifyUserRequest request){
         Optional<User> user = userRepository.findById(id);
         if(!user.isPresent()){

@@ -108,8 +108,13 @@ public class AuthController {
             ParkingBoy parkingBoy=new ParkingBoy(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPhoneNumber(), "available");
             parkingBoyRepository.saveAndFlush(parkingBoy);
             user.setIdInRole(parkingBoy.getId());
-            result = userRepository.saveAndFlush(user);
-            if(result==null){
+            try {
+                result = userRepository.saveAndFlush(user);
+                if (result == null) {
+                    parkingBoyRepository.delete(parkingBoy);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
+            }catch (Exception e){
                 parkingBoyRepository.delete(parkingBoy);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
@@ -119,14 +124,17 @@ public class AuthController {
             Manager manager=new Manager(signUpRequest.getName(), signUpRequest.getEmail(), signUpRequest.getPhoneNumber());
             managerRepository.saveAndFlush(manager);
             user.setIdInRole(manager.getId());
-            result = userRepository.saveAndFlush(user);
-            if(result==null){
+            try {
+                result = userRepository.saveAndFlush(user);
+                if (result == null) {
+                    managerRepository.delete(manager);
+                    return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+                }
+            }catch (Exception e){
                 managerRepository.delete(manager);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
         }
-
-
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentContextPath().path("/api/users/{username}")

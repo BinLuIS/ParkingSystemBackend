@@ -1,49 +1,35 @@
-## APIs List
+# Parking System Backend
 
-### Parking Order APIs
-- GET /orders
-- POST /orders 
-  - Input: {"carNumber":String}
-- POST /orders/{id}
+## Background
+This repository stores the source code of our parking system backend.
 
-### Parking Boy APIs
-- GET /parkingclerks
-- POST /parkingclerks 
-  - Input: {"name":String,"email":String,"phoneNumber":String,"status": Not yet decide, always to be "OnDuty"}
-- GET /parkingclerks/{id}/parkinglots
-- POST /parkingclerks/{id}/parkinglots
-- GET /parkingclerks/{id}/orders
-- POST /parkingclerks/{id}/orders 
-  - Input: {"parkingOrderId": Integer}
+- Parking System: https://parkingwebappmobile.herokuapp.com/
+- Parking System Management Console: https://binluis-parkingwebapp.herokuapp.com/login
+- Parking System Backend: https://parkingsystem.herokuapp.com/
+- Parking System Database: https://parkingsystem.herokuapp.com/h2-console (JDBC URL: jdbc:h2:file:./h2/binluis, User Name: sa, Password: <Blank Password>)
 
+This parking system is the final project of a bootcamp which we joint in Nov, 2018, we learnt several technology stacks as below
 
-### Parking Lot APIs
-- GET /parkinglots
-- POST /parkinglots 
-  - Input: {"name": String, "capacity":Integer}
-- GET /parkinglots/{id}/orders 
-- POST /parkinglots/{id}/orders 
-  - Input: {"parkingOrderId": Integer, "vaild": true}
+### Programming Languages
+- Java
+- Javascript
 
+### Frameworks
+- React JS
+- Spring Boot
 
+## Business Logic of Parking System
+Assumption:
+We have partnered with some parking service provider which will have their own parking boys helping customers park their cars.
 
-## Milestones
+Our parking system is a platform showing which parking lot a customer is going to park his/her car to so that parking boys can take the order and make money. On top of that, this parking system provides a management tool, covering utilization rate of each parking lot, resource planning (who are on duty).
 
-### Iteration 1
-#### APIs
-- [x] Customer: Make car parking order, make car fetching request
-- [x] Parking Boy: Can View all orders, park a car (Accept an order, decide which parking lot for this order)
-- [x] Manager: addParkingLotsToParkingBoys, ViewParkingLotsOfParkingBoys, AssignOrderToParkingBoys
-- [x] System Admin: Create parkinglots, create parkingboys,view all parking lots, view all orders
+Our parking system earns money by subscription for each parking service provider and advertisement.
 
-#### Authentication
-- [x] Sign Up
-- [x] Sign In Phrase 1 - Get Token
-- [x] Sign In Phrase 2 - Use Token for API authorisation
-- [ ] Sign In Phrase 3 - Reuse token throughout web surfing
-
-
-### Iteration 2
-#### APIs
-- [x] Update parkingOrder status choice: pending, accepted, parked, completed
-- [x] Update POST /parkinglots/{id}/orders output such that it inclues availableCapacity
+## Team Members (in alphabetical order)
+- Connie Ip (Tech Lead & Full Stack)
+- Iker Suen (Full Stack & Security Function)
+- Kyle Yip (Fullstack)
+- Joe Ho (Team Lead & Full Stack)
+- Tommy Hui (Frontend)
+- Venice Lam (Frontend)

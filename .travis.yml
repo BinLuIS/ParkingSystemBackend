@@ -21,7 +21,7 @@ deploy:
     master: parkingsystem
     production: binluis-parking-system
   on:
-    repo: BinLuIS/ParkingSystem
+    repo: BinLuIS/ParkingSystemBackend
 notifications:
   webhooks:
     on_success: change  # options: [always|never|change] default: always

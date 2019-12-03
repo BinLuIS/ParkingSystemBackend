@@ -41,6 +41,9 @@ Customers use our application to ask for car parking service in this web app, ou
 9. Customer ask for car picking up
 10. Parking clerk accept the car picking up request and drive the car to customer's location
 
+## Remark
+Data will not persist, the database will erase all data whenever it is offline.
+
 ## Team Members (in alphabetical order)
 - Connie Ip (Tech Lead & Full Stack)
 - Iker Suen (Full Stack & Security Function)

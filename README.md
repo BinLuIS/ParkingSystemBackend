@@ -23,6 +23,24 @@ This web app is a inhouse tool of a multinational parking service provider.
 
 Customers use our application to ask for car parking service in this web app, our internal parking clerks use this app to compete for car parking service to make extra money. On top of that, we have a management console for human resource management, parking lot management (i.e. which parking lot that a parking clerk will manage), car service request assignment (assign car service to some parking clerk)
 
+## Business Flow (a.k.a Quickstart)
+0. Spin Up the machines by browsing below URL
+
+   https://binluis-parking-mobile.herokuapp.com
+   https://binluis-parkingwebapp.herokuapp.com/login
+   https://parkingsystem.herokuapp.com
+   https://parkingsystem.herokuapp.com/h2-console
+1. Create a parking clerk account
+2. Create a parking lot Resource
+3. Create a manager account
+4. Assign a parking lot to a parking clerk
+5. Create a car parking request
+6. Parking clerk accept the car parking request
+7. Manager can view the status of car parking requests
+8. Manager can view the parking lot utilization rate
+9. Customer ask for car picking up
+10. Parking clerk accept the car picking up request and drive the car to customer's location
+
 ## Team Members (in alphabetical order)
 - Connie Ip (Tech Lead & Full Stack)
 - Iker Suen (Full Stack & Security Function)

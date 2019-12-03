@@ -19,12 +19,9 @@ This parking system is the final project of a bootcamp which we joint in Nov, 20
 - Spring Boot
 
 ## Business Logic of Parking System
-Assumption:
-We have partnered with some parking service provider which will have their own parking boys helping customers park their cars.
+This web app is a inhouse tool of a multinational parking service provider.
 
-Our parking system is a platform showing which parking lot a customer is going to park his/her car to so that parking boys can take the order and make money. On top of that, this parking system provides a management tool, covering utilization rate of each parking lot, resource planning (who are on duty).
-
-Our parking system earns money by subscription for each parking service provider and advertisement.
+Customers use our application to ask for car parking service in this web app, our internal parking clerks use this app to compete for car parking service to make extra money. On top of that, we have a management console for human resource management, parking lot management (i.e. which parking lot that a parking clerk will manage), car service request assignment (assign car service to some parking clerk)
 
 ## Team Members (in alphabetical order)
 - Connie Ip (Tech Lead & Full Stack)

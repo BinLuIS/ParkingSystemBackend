@@ -3,9 +3,9 @@
 ## Background
 This repository stores the source code of our parking system backend.
 
-- Parking System Mobile Web App: https://binluis-parking-mobile.herokuapp.com/
+- Parking System Mobile Web App: https://binluis-parking-mobile.herokuapp.com
 - Parking System Management Console: https://binluis-parkingwebapp.herokuapp.com/login
-- Parking System Backend: https://parkingsystem.herokuapp.com/
+- Parking System Backend: https://parkingsystem.herokuapp.com
 - Parking System Database: https://parkingsystem.herokuapp.com/h2-console (JDBC URL: jdbc:h2:file:./h2/binluis, User Name: sa, Blank Password)
 
 This parking system is the final project of a bootcamp which we joint in Nov, 2018, we learnt several technology stacks as below

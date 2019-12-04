@@ -36,11 +36,11 @@ Customers use our application to ask for car parking service in this web app, ou
 2. Create a manager account<br/>
    POST https://parkingsystem.herokuapp.com/api/auth/signup
    {"name":"mgr","username":"mgr","email":"mgr@email.com","password":"mgr","phoneNumber":"98765432","role":"MANAGER"}
-3. Create a parking lot Resource   (Log in to https://binluis-parkingwebapp.herokuapp.com/ with User name: mgr & Password: mgr)
+3. Create a parking lot Resource   (Log in to https://binluis-parkingwebapp.herokuapp.com with User name: mgr & Password: mgr)
 4. Assign a parking lot to a parking clerk
-5. Create a car parking request
-6. Parking clerk accept the car parking request
-7. Customer can view the status of his/her car parking request
+5. Create a car parking request at https://binluis-parking-mobile.herokuapp.com/requestformpage
+6. Parking clerk accept the car parking request (Log in to https://binluis-parking-mobile.herokuapp.com/login with User name: clerk & Password: clerk)
+7. Customer can view the status of his/her car parking request at https://binluis-parking-mobile.herokuapp.com/requestformpage
 8. Manager can view the status of car parking requests
 9. Manager can view the parking lot utilization rate
 10. Customer ask for car picking up

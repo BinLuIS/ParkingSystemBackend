@@ -33,17 +33,18 @@ Customers use our application to ask for car parking service in this web app, ou
 1. Create a parking clerk account <br/>
    POST https://parkingsystem.herokuapp.com/api/auth/signup
    {"name":"clerk","username":"clerk","email":"clerk@email.com","password":"clerk","phoneNumber":"12345678","role":"PARKINGCLERK"}
-2. Create a parking lot Resource
-3. Create a manager account<br/>
+2. Create a manager account<br/>
    POST https://parkingsystem.herokuapp.com/api/auth/signup
    {"name":"mgr","username":"mgr","email":"mgr@email.com","password":"mgr","phoneNumber":"98765432","role":"MANAGER"}
+3. Create a parking lot Resource   (Log in to https://binluis-parkingwebapp.herokuapp.com/ with User name: mgr & Password: mgr)
 4. Assign a parking lot to a parking clerk
 5. Create a car parking request
 6. Parking clerk accept the car parking request
-7. Manager can view the status of car parking requests
-8. Manager can view the parking lot utilization rate
-9. Customer ask for car picking up
-10. Parking clerk accept the car picking up request and drive the car to customer's location
+7. Customer can view the status of his/her car parking request
+8. Manager can view the status of car parking requests
+9. Manager can view the parking lot utilization rate
+10. Customer ask for car picking up
+11. Parking clerk accept the car picking up request and drive the car to customer's location
 
 ## Remark
 Data will not persist, the database will erase all data whenever it is offline.

@@ -41,10 +41,11 @@ Customers use our application to ask for car parking service in this web app, ou
 5. Create a car parking request at https://binluis-parking-mobile.herokuapp.com/requestformpage
 6. Parking clerk accept the car parking request (Log in to https://binluis-parking-mobile.herokuapp.com/login with User name: clerk & Password: clerk)
 7. Customer can view the status of his/her car parking request at https://binluis-parking-mobile.herokuapp.com/requestformpage
-8. Manager can view the status of car parking requests
-9. Manager can view the parking lot utilization rate
-10. Customer ask for car picking up
-11. Parking clerk accept the car picking up request and drive the car to customer's location
+8. Parking clerk park the car
+9. Manager can view the status of car parking requests
+10. Manager can view the parking lot utilization rate
+11. Customer ask for car picking up
+12. Parking clerk accept the car picking up request and drive the car to customer's location
 
 ## Remark
 Data will not persist, the database will erase all data whenever it is offline.

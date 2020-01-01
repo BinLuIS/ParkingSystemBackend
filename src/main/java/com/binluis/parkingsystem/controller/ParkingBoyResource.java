@@ -127,7 +127,7 @@ public class ParkingBoyResource {
     public ResponseEntity getParkingLot(@PathVariable Long id){
         ParkingBoy parkingBoy = parkingBoyRepository.findOneById(id);
         List<ParkingLotResponse> parkingLotOfParkingBoy = parkingBoy.getParkingLots().stream().map(e -> {
-            int availableCapacity = e.getCapacity() - e.getParkingOrders().size();
+            int availableCapacity = e.getAvailableCapacity().size();
             return ParkingLotResponse.create(e.getId(), e.getName(), e.getCapacity(), availableCapacity);
         }).collect(Collectors.toList());
 

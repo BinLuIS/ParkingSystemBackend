@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Table(name = "parking_lot")
@@ -60,12 +61,16 @@ public class ParkingLot {
     public List<ParkingOrder> getParkingOrders() {
         return parkingOrders;
     }
-
+    
+    public int getAvailableCapacity() {
+        return parkingOrders.stream().filter(each->(each.getStatus() == "parked" || each.getStatus() == "fetching")).toArray().length;
+    }
+    
     public void setParkingOrders(List<ParkingOrder> parkingOrders) {
         this.parkingOrders = parkingOrders;
 
     }
-
+    
     public ParkingBoy getParkingBoy() {
         return parkingBoy;
     }

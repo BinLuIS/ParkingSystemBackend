@@ -36,13 +36,22 @@ Customers use our application to ask for car parking service in this web app, ou
 2. Create a manager account<br/>
    POST https://parkingsystem.herokuapp.com/api/auth/signup
    {"name":"mgr","username":"mgr","email":"mgr@email.com","password":"mgr","phoneNumber":"98765432","role":"MANAGER"}
-3. Create a parking lot Resource   (Log in to https://binluis-parkingwebapp.herokuapp.com with User name: mgr & Password: mgr)
-4. Assign a parking lot to a parking clerk
-5. Create a car parking request at https://binluis-parking-mobile.herokuapp.com/requestformpage
-6. Customer can view the status of his/her car parking request at https://binluis-parking-mobile.herokuapp.com/requestformpage
-7. Manager can view the status of car parking requests
-8. Manager can view the parking lot utilization rate
-9. Parking clerk accept the car parking request (Log in to https://binluis-parking-mobile.herokuapp.com/login with User name: clerk & Password: clerk)
+3. Create a parking lot Resource   (Log in to https://binluis-parkingwebapp.herokuapp.com with User name: mgr & Password: mgr) <br/>
+![Step3](https://github.com/BinLuIS/ParkingSystemBackend/blob/master/img/business_flow_step3.png)
+4. Assign a parking lot to a parking clerk<br/>
+![Step4](https://github.com/BinLuIS/ParkingSystemBackend/blob/master/img/business_flow_step4.png)
+5. Create a car parking request at https://binluis-parking-mobile.herokuapp.com/requestformpage<br/>
+![Step5](https://github.com/BinLuIS/ParkingSystemBackend/blob/master/img/business_flow_step6.png)<br/>
+![Step5_sup](https://github.com/BinLuIS/ParkingSystemBackend/blob/master/img/business_flow_step5_sup.png)
+6. Customer can view the status of his/her car parking request at https://binluis-parking-mobile.herokuapp.com/requestformpage<br/>
+![Step6](https://github.com/BinLuIS/ParkingSystemBackend/blob/master/img/business_flow_step6.png)<br/>
+![Step6_sup](https://github.com/BinLuIS/ParkingSystemBackend/blob/master/img/business_flow_step6_sup.png)
+7. Manager can view the status of car parking requests<br/>
+![Step7](https://github.com/BinLuIS/ParkingSystemBackend/blob/master/img/business_flow_step7.png)
+8. Manager can view the parking lot utilization rate<br/>
+![Step7](https://github.com/BinLuIS/ParkingSystemBackend/blob/master/img/business_flow_step8.png)
+9. Parking clerk accept the car parking request (Log in to https://binluis-parking-mobile.herokuapp.com/login with User name: clerk & Password: clerk)<br/>
+![Step9](https://github.com/BinLuIS/ParkingSystemBackend/blob/master/img/business_flow_step9.png)
 
 
 ## Remark

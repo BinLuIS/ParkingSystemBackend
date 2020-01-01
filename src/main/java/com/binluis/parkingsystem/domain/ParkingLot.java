@@ -63,7 +63,7 @@ public class ParkingLot {
     }
     
     public List<ParkingOrder> getAvailableCapacity() {
-        return parkingOrders.filter(each->(each.getStatus() == "parked" || each.getStatus() == "fetching")).collect(Collectors.toList());;
+        return parkingOrders.filter(each->(each.getStatus() == "parked" || each.getStatus() == "fetching")).collect(Collectors.toList());
     } 
     
     public void setParkingOrders(List<ParkingOrder> parkingOrders) {

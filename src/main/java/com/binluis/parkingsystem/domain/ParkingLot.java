@@ -62,9 +62,9 @@ public class ParkingLot {
         return parkingOrders;
     }
     
-    public List<ParkingOrder> getAvailableCapacity() {
-        return parkingOrders.filter(each->(each.getStatus() == "parked" || each.getStatus() == "fetching")).collect(Collectors.toList());
-    } 
+    public int getAvailableCapacity() {
+        return parkingOrders.filter(each->(each.getStatus() == "parked" || each.getStatus() == "fetching")).toArray().length;
+    }
     
     public void setParkingOrders(List<ParkingOrder> parkingOrders) {
         this.parkingOrders = parkingOrders;

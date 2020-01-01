@@ -60,12 +60,16 @@ public class ParkingLot {
     public List<ParkingOrder> getParkingOrders() {
         return parkingOrders;
     }
-
+    
+    public List<ParkingOrder> getAvailableCapacity() {
+        return parkingOrders.filter(each->(each.status == "parked" or each.status == "fetching"))
+    } 
+    
     public void setParkingOrders(List<ParkingOrder> parkingOrders) {
         this.parkingOrders = parkingOrders;
 
     }
-
+    
     public ParkingBoy getParkingBoy() {
         return parkingBoy;
     }
